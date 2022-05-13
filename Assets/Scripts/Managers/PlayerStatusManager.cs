@@ -177,13 +177,16 @@ public class PlayerStatusManager : MonoBehaviour
             Energy = maxEnergy;
 
         UpdateStatusMeters();
+
         TimeManager.Instance.AdvancePhase();
+
+        AudioManager.Instance.Play("Rest");
     }
 
     public void Hygienize()
     {
         // There's no water during the evening, so the player can't hygienize at that time
-        if (TimeManager.Instance.CurrentPhase == TimeManager.DayPhase.Evening)
+        if (TimeManager.Instance.CurrentPhase == TimeManager.DayPhase.Night)
         {
             InformationManager.Instance.SendInfo(0, "Due to shortages, running water is only available during the day");
         }
@@ -197,7 +200,10 @@ public class PlayerStatusManager : MonoBehaviour
                 Hygiene = maxHygiene;
 
             UpdateStatusMeters();
+
             TimeManager.Instance.AdvancePhase();
+
+            AudioManager.Instance.Play("Hygienize");
         }
     }
 }

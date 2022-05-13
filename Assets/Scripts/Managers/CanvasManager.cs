@@ -13,15 +13,19 @@ public class CanvasManager : MonoBehaviour
     {
         expeditionTextHolder.SetActive(!expeditionTextHolder.activeInHierarchy);
         expeditionDetails[expeditionNumber].SetActive(!expeditionDetails[expeditionNumber].activeInHierarchy);
+
+        AudioManager.Instance.Play("ExpeditionDetails");
     }
 
     public void ToggleMissionBoard()
     {
         missionsBoard.SetActive(!missionsBoard.activeInHierarchy);
+        AudioManager.Instance.Play("CheckBoard");
     }    
     
     public void ToggleExpeditionBoard()
     {
+
         for (int i = 0; i < expeditionDetails.Length; i++)
         {
             expeditionDetails[i].SetActive(false);
@@ -30,5 +34,7 @@ public class CanvasManager : MonoBehaviour
         expeditionTextHolder.SetActive(true);
 
         expeditionsBoard.SetActive(!expeditionsBoard.activeInHierarchy);
+        
+        AudioManager.Instance.Play("CheckBoard");
     }
 }
