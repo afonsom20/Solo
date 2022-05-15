@@ -18,5 +18,5 @@ public class Expeditions
     [Range(0, 100)]
     public int FightEncounterChance;
 
-    public string[] PossibleLoot;
+    //public string[] PossibleLoot;
 }

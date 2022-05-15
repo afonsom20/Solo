@@ -22,8 +22,22 @@ public class ExpeditionManager : MonoBehaviour
         
     }
 
-    void GetLoot(int level)
+    void GetLoot(int expeditionLootLevel)
     {
+        // Create a list where we'll store the loot that is possible to get in the current expedition
+        List<Loot> lootFound = new List<Loot>();
+
+        // For every Loot possible...
+        for (int i = 0; i < Loot.Length; i++)
+        {            
+            // ... "roll the dice" to see if it will be found on this expedition
+            if (Loot[i].ChanceToFind >= Random.Range(0, 100))
+            {
+                // ... and, if so, add it to the possible expedition loot list
+                lootFound.Add(Loot[i]);
+            }
+
+        }
 
     }
 }

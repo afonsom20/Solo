@@ -7,8 +7,8 @@ public class Loot
 {
     public string Name;
 
-    [Tooltip("Each expedition has a Loot Level. At what levels can this item be found?")]
-    public int[] Levels;
+    [Tooltip("Each expedition has a Loot Level. From what level can this item be found?")]
+    public int MinimumLevel;
 
     public int ChanceToFind = 30;
 }
