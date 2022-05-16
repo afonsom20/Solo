@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CanvasManager : MonoBehaviour
 {
-    [SerializeField] GameObject missionsBoard;
+    [SerializeField] GameObject inventoryBoard;
     [SerializeField] GameObject expeditionsBoard;
     [SerializeField] GameObject expeditionTextHolder;
     [SerializeField] GameObject[] expeditionDetails;
@@ -17,9 +17,9 @@ public class CanvasManager : MonoBehaviour
         AudioManager.Instance.Play("ExpeditionDetails");
     }
 
-    public void ToggleMissionBoard()
+    public void ToggleInventory()
     {
-        missionsBoard.SetActive(!missionsBoard.activeInHierarchy);
+        inventoryBoard.SetActive(!inventoryBoard.activeInHierarchy);
         AudioManager.Instance.Play("CheckBoard");
     }    
     

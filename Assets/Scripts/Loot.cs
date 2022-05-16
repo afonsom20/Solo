@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Loot
+[CreateAssetMenu(menuName = "Loot Item")]
+public class Loot : ScriptableObject
 {
     public string Name;
 
@@ -11,4 +11,6 @@ public class Loot
     public int MinimumLevel;
 
     public int ChanceToFind = 30;
+
+    public Sprite Icon;
 }

@@ -7,6 +7,8 @@ public class ExpeditionManager : MonoBehaviour
     public Expeditions[] Expeditions;
     public Loot[] Loot;
 
+    [SerializeField] Inventory inventory;
+
     public void GoOnExpedition(int index)
     {
         int danger = Expeditions[index].Danger;
@@ -25,7 +27,7 @@ public class ExpeditionManager : MonoBehaviour
     void GetLoot(int expeditionLootLevel)
     {
         // Create a list where we'll store the loot that is possible to get in the current expedition
-        List<Loot> lootFound = new List<Loot>();
+        //List<Loot> lootFound = new List<Loot>();
 
         // For every Loot possible...
         for (int i = 0; i < Loot.Length; i++)
@@ -34,7 +36,8 @@ public class ExpeditionManager : MonoBehaviour
             if (Loot[i].ChanceToFind >= Random.Range(0, 100))
             {
                 // ... and, if so, add it to the possible expedition loot list
-                lootFound.Add(Loot[i]);
+                //lootFound.Add(Loot[i]);
+                inventory.AddLoot(Loot[i], 1);
             }
 
         }
