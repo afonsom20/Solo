@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CanvasManager : MonoBehaviour
 {
@@ -36,5 +37,22 @@ public class CanvasManager : MonoBehaviour
         expeditionsBoard.SetActive(!expeditionsBoard.activeInHierarchy);
         
         AudioManager.Instance.Play("CheckBoard");
+    }
+
+    public void Retry()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void HideAllBoards()
+    {
+        inventoryBoard.SetActive(false);
+        expeditionTextHolder.SetActive(false);
+        expeditionsBoard.SetActive(false);
     }
 }

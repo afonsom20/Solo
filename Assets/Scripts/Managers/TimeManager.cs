@@ -9,11 +9,14 @@ public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance { get; set; }
 
+    public int DaysUntilRescue = 30;
+
     [Header("UI")]
+    [SerializeField] CanvasManager canvasManager;
     [SerializeField] Animator blackScreen;
     [SerializeField] TextMeshProUGUI dayText;
-    //[SerializeField] GameObject[] apartmentBackgrounds; // 0 - morning; 1 - evening
     [SerializeField] GameObject darkPanel;
+    [SerializeField] GameObject winScreen;
 
     [Space, Header("Volume & VFX")]
     [SerializeField] Volume volume;
@@ -50,6 +53,9 @@ public class TimeManager : MonoBehaviour
             CurrentPhase = DayPhase.Day;
 
             PlayerStatusManager.Instance.Eat();
+            DaysUntilRescue -= 1; 
+            if (DaysUntilRescue == 0)            
+                winScreen.SetActive(true);            
 
             dayText.text = "Day " + Day.ToString();
 
@@ -71,29 +77,18 @@ public class TimeManager : MonoBehaviour
         // Go into the day
         if (CurrentPhase == DayPhase.Day)
         {
-            //apartmentBackgrounds[0].SetActive(true);
-            //apartmentBackgrounds[1].SetActive(false);
             darkPanel.SetActive(false);
-
-            //ChangeVolume(false);
         }
         // Go into the night
         else
         {
-            //apartmentBackgrounds[0].SetActive(false);
-            //apartmentBackgrounds[1].SetActive(true);
-
             darkPanel.SetActive(true);
 
             //ChangeVolume(true);
         }
 
+        canvasManager.HideAllBoards();
         PlayerStatusManager.Instance.StatusDecreasePerPhase();
         PlayerStatusManager.Instance.CheckPlayerCondition();        
-    }
-
-    void ChangeVolume(bool changeToNight)
-    {
-    
     }
 }

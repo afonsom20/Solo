@@ -14,6 +14,8 @@ public class PlayerStatusManager : MonoBehaviour
     [HideInInspector] public int Hope;
     public int Food = 6;
 
+    [Space, Header("Death Screen")]
+    [SerializeField] GameObject deathScreen;
     [Space, Header("UI Meters")]
     [SerializeField] Slider healthSlider;
     [SerializeField] Slider energySlider;
@@ -36,7 +38,7 @@ public class PlayerStatusManager : MonoBehaviour
     [SerializeField] int lowEnergyThreshold = 30;
     [SerializeField] int lowHygieneThreshold = 25;
     [SerializeField] int lowHopeThreshold = 25;
-    [SerializeField] int foodEatenPerDay = 3;
+    [SerializeField] int foodEatenPerDay = 2;
     [Space]
     [SerializeField] int lowEnergyHealthEffect = 15;
     [SerializeField] int lowHygieneHealthEffect = 15;
@@ -108,6 +110,16 @@ public class PlayerStatusManager : MonoBehaviour
         UpdateStatusMeters();
     }
 
+    // When Food is found on an expedition
+    public void FindFood(int amount)
+    {
+        Food += amount;
+
+        // Update UI
+        foodText.text = Food.ToString();
+        UpdateStatusMeters();
+    }
+
     public void StatusDecreasePerPhase()
     {
         Energy -= energyDecreasePerPhase;
@@ -125,6 +137,11 @@ public class PlayerStatusManager : MonoBehaviour
 
     public void CheckPlayerCondition()
     {
+        if (Health <= 0)
+        {
+            deathScreen.SetActive(true);
+        }
+
         // Low energy effect on health
         if (Energy <= lowEnergyThreshold)
         {
@@ -205,5 +222,16 @@ public class PlayerStatusManager : MonoBehaviour
 
             AudioManager.Instance.Play("Hygienize");
         }
+    }
+
+    // This function is called in external scripts every time an action that increases hope is performed
+    public void IncreaseHope(int amount)
+    {
+        Hope += amount;
+
+        if (Hope >= maxHope)
+            Hope = maxHope;
+
+        UpdateStatusMeters();
     }
 }

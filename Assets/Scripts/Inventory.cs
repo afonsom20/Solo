@@ -31,6 +31,14 @@ public class Inventory : MonoBehaviour
             }
         }
 
+        // If the look found was food, don't add it to the inventory, but to the special food slot
+        if (loot.Name == "Food")
+        {
+            int foodAmount = Random.Range(1, 4);
+            PlayerStatusManager.Instance.FindFood(foodAmount);
+            return;
+        }
+
         // If the loot is still not present in the inventory, add it
         Loot.Add(loot);
         Amounts.Add(amount);
