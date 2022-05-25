@@ -7,6 +7,8 @@ public class Expeditions
 {
     public string Name;
 
+    public string Description;
+
     [Tooltip("Danger of the expedition and of encounters that may happen. 0 - None; 1 - Low; 2 - Medium, 3 - High")]
     [Range(0, 3)]
     public int Danger;

@@ -15,4 +15,6 @@ MonoBehaviour:
   Name: Knife
   MinimumLevel: 1
   ChanceToFind: 15
-  Icon: {fileID: 21300000, guid: 43358b703766fee4ebe64c7fbd583376, type: 3}
+  AmountMin: 1
+  AmountMax: 1
+  Icon: {fileID: 21300000, guid: e853876ffa3b7b248bac646c8a57c69a, type: 3}

@@ -12,7 +12,6 @@ public class TimeManager : MonoBehaviour
     public int DaysUntilRescue = 30;
 
     [Header("UI")]
-    [SerializeField] CanvasManager canvasManager;
     [SerializeField] Animator blackScreen;
     [SerializeField] TextMeshProUGUI dayText;
     [SerializeField] GameObject darkPanel;
@@ -64,6 +63,8 @@ public class TimeManager : MonoBehaviour
             // These changes are delayed so the status' don't change before the black screen hides them
             StartCoroutine(DelayedChanges());
         }
+
+        CanvasManager.Instance.HideAllBoards();
     }
 
     IEnumerator DelayedChanges()
@@ -87,7 +88,6 @@ public class TimeManager : MonoBehaviour
             //ChangeVolume(true);
         }
 
-        canvasManager.HideAllBoards();
         PlayerStatusManager.Instance.StatusDecreasePerPhase();
         PlayerStatusManager.Instance.CheckPlayerCondition();        
     }

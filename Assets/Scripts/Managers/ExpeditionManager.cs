@@ -1,13 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ExpeditionManager : MonoBehaviour
 {
     public Expeditions[] Expeditions;
     public Loot[] Loot;
 
+    [Header("UI")]
     [SerializeField] Inventory inventory;
+    [SerializeField] GameObject handwrittenTextPrefab;
+    [SerializeField] Transform expeditionRecapTextHolder;
+
+    [Space, Header("Variables")]
     [SerializeField] int hopeIncreaseBase = 5;
     [SerializeField] int lootChanceIncreaseFactor = 4;
 
@@ -21,6 +27,11 @@ public class ExpeditionManager : MonoBehaviour
         lootLevel = Expeditions[index].LootLevel;
         fightChance = Expeditions[index].FightEncounterChance;
 
+        // Reset the expedition board
+        foreach (Transform child in expeditionRecapTextHolder)
+            Destroy(child.gameObject);
+        
+
         GetLoot(lootLevel);
 
         if (Random.Range(0, 100) <= fightChance)
@@ -28,22 +39,34 @@ public class ExpeditionManager : MonoBehaviour
             Fight();
         }
 
-        PlayerStatusManager.Instance.IncreaseHope(hopeIncreaseBase + lootLevel + danger);
         TimeManager.Instance.AdvancePhase();
+
+        StartCoroutine(DelayedChanges());
+
+    }
+
+    void UpdateRecapBoard(string lootName, int amount)
+    {
+        GameObject newText = Instantiate(handwrittenTextPrefab, expeditionRecapTextHolder);
+        newText.GetComponent<TextMeshProUGUI>().text = "- " + amount + "x " + lootName;
+    }
+
+    IEnumerator DelayedChanges()
+    {
+        if (TimeManager.Instance.CurrentPhase == TimeManager.DayPhase.Night)
+            yield return new WaitForSeconds(1.5f);
+        else
+            yield return new WaitForSeconds(4f);
 
         int finalHopeIncrease = hopeIncreaseBase + lootLevel + danger;
         PlayerStatusManager.Instance.IncreaseHope(finalHopeIncrease);
-        Debug.Log("Completed expedition. Increased hope by " + finalHopeIncrease);
-
+        CanvasManager.Instance.ToggleExpeditionRecapBoard();
     }
 
     void GetLoot(int expeditionLootLevel)
     {
-        // Create a list where we'll store the loot that is possible to get in the current expedition
-        //List<Loot> lootFound = new List<Loot>();
-
-        int chanceIncreaseFactor = lootChanceIncreaseFactor * lootLevel + danger;
-        Debug.Log("Chance Increase Factor = " + chanceIncreaseFactor);
+        // Each expedition has “Danger” and “Loot Level” values associated to it. The higher these are, the higher the chance to find each loot item. 
+        int chanceIncreaseFactor = lootChanceIncreaseFactor * (lootLevel + danger);
 
         // For every Loot possible...
         for (int i = 0; i < Loot.Length; i++)
@@ -52,10 +75,13 @@ public class ExpeditionManager : MonoBehaviour
             // Note that the an expedition with a higher loot and danger levels will increase the chances of finding that loot item
             if (Loot[i].ChanceToFind + chanceIncreaseFactor >= Random.Range(0, 100))
             {
-                // ... and, if so, add it to the possible expedition loot list
-                //lootFound.Add(Loot[i]); 
-                Debug.Log("Loot found = " + Loot[i].name);
-                inventory.AddLoot(Loot[i], 1);
+                // ... and, if so, add it to the player's inventory...
+                // ... but not before randomizing the amount of loot found
+                int lootAmount = Random.Range(Loot[i].AmountMin, Loot[i].AmountMax + lootLevel);
+                inventory.AddLoot(Loot[i], lootAmount);
+
+                // Update the recap board UI to show the 
+                UpdateRecapBoard(Loot[i].Name, lootAmount);
             }
 
         }

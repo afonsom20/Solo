@@ -12,5 +12,9 @@ public class Loot : ScriptableObject
 
     public int ChanceToFind = 30;
 
+    public int AmountMin = 1;
+
+    public int AmountMax = 5;
+
     public Sprite Icon;
 }

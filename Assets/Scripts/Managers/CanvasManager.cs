@@ -5,10 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class CanvasManager : MonoBehaviour
 {
+    public static CanvasManager Instance { get; set; }
+
     [SerializeField] GameObject inventoryBoard;
     [SerializeField] GameObject expeditionsBoard;
+    [SerializeField] GameObject expeditionRecapBoard;
     [SerializeField] GameObject expeditionTextHolder;
     [SerializeField] GameObject[] expeditionDetails;
+
+    void Awake()
+    {
+        Instance = this;       
+    }
 
     public void ToggleExpeditionDetails(int expeditionNumber)
     {
@@ -21,6 +29,12 @@ public class CanvasManager : MonoBehaviour
     public void ToggleInventory()
     {
         inventoryBoard.SetActive(!inventoryBoard.activeInHierarchy);
+        AudioManager.Instance.Play("CheckBoard");
+    }    
+    
+    public void ToggleExpeditionRecapBoard()
+    {
+        expeditionRecapBoard.SetActive(!expeditionRecapBoard.activeInHierarchy);
         AudioManager.Instance.Play("CheckBoard");
     }    
     

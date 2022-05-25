@@ -34,8 +34,7 @@ public class Inventory : MonoBehaviour
         // If the look found was food, don't add it to the inventory, but to the special food slot
         if (loot.Name == "Food")
         {
-            int foodAmount = Random.Range(1, 4);
-            PlayerStatusManager.Instance.FindFood(foodAmount);
+            PlayerStatusManager.Instance.FindFood(amount);
             return;
         }
 

@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e03725304043de34cbb8985265b51063, type: 3}
-  m_Name: Food
+  m_Name: Ammunition
   m_EditorClassIdentifier: 
-  Name: Food
-  MinimumLevel: 0
-  ChanceToFind: 50
-  AmountMin: 1
-  AmountMax: 4
-  Icon: {fileID: 21300000, guid: b915a7ee8a2712a43a9ed2e24541c454, type: 3}
+  Name: Ammunition
+  MinimumLevel: 1
+  ChanceToFind: 30
+  AmountMin: 2
+  AmountMax: 9
+  Icon: {fileID: 21300000, guid: 65018178f6653344685df2610b31c75b, type: 3}

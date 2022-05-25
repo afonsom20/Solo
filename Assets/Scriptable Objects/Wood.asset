@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e03725304043de34cbb8985265b51063, type: 3}
-  m_Name: Food
+  m_Name: Wood
   m_EditorClassIdentifier: 
-  Name: Food
+  Name: Wood
   MinimumLevel: 0
-  ChanceToFind: 50
-  AmountMin: 1
-  AmountMax: 4
-  Icon: {fileID: 21300000, guid: b915a7ee8a2712a43a9ed2e24541c454, type: 3}
+  ChanceToFind: 20
+  AmountMin: 2
+  AmountMax: 5
+  Icon: {fileID: 21300000, guid: a2f9824cf698d1d48b0588b306604729, type: 3}
