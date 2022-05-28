@@ -11,10 +11,13 @@ public class TimeManager : MonoBehaviour
 
     public int DaysUntilRescue = 30;
 
+    [Header("Art")]
+    [SerializeField] GameObject[] backgrounds;
+
     [Header("UI")]
     [SerializeField] Animator blackScreen;
     [SerializeField] TextMeshProUGUI dayText;
-    [SerializeField] GameObject darkPanel;
+    //[SerializeField] GameObject darkPanel;
     [SerializeField] GameObject winScreen;
 
     [Space, Header("Volume & VFX")]
@@ -78,12 +81,18 @@ public class TimeManager : MonoBehaviour
         // Go into the day
         if (CurrentPhase == DayPhase.Day)
         {
-            darkPanel.SetActive(false);
+            //darkPanel.SetActive(false);
+            
+            backgrounds[0].SetActive(true);
+            backgrounds[1].SetActive(false);
         }
         // Go into the night
         else
         {
-            darkPanel.SetActive(true);
+            //darkPanel.SetActive(true);
+
+            backgrounds[0].SetActive(false);
+            backgrounds[1].SetActive(true);
 
             //ChangeVolume(true);
         }

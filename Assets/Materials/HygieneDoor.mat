@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: HygieneDoor
   m_Shader: {fileID: 4800000, guid: a36b7719ff0465b42ab1407d67672c5f, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _ONLYOUTLINE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -155,7 +155,7 @@ Material:
     - _OffsetUvX: 0
     - _OffsetUvY: 0
     - _OnlyInnerOutline: 0
-    - _OnlyOutline: 0
+    - _OnlyOutline: 1
     - _Outline8Directions: 0
     - _OutlineAlpha: 1
     - _OutlineDistortAmount: 0.5

@@ -32,7 +32,7 @@ public class ExpeditionManager : MonoBehaviour
             Destroy(child.gameObject);
         
 
-        GetLoot(lootLevel);
+        GetLoot();
 
         if (Random.Range(0, 100) <= fightChance)
         {
@@ -63,7 +63,7 @@ public class ExpeditionManager : MonoBehaviour
         CanvasManager.Instance.ToggleExpeditionRecapBoard();
     }
 
-    void GetLoot(int expeditionLootLevel)
+    void GetLoot()
     {
         // Each expedition has “Danger” and “Loot Level” values associated to it. The higher these are, the higher the chance to find each loot item. 
         int chanceIncreaseFactor = lootChanceIncreaseFactor * (lootLevel + danger);

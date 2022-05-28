@@ -6,6 +6,8 @@ using TMPro;
 
 public class ActivityBoard : MonoBehaviour
 {
+    public static ActivityBoard Instance { get; set; }
+
     [SerializeField] GameObject activityButtonPrefab;
     [SerializeField] Transform activityTextHolder;
     [SerializeField] GameObject activityDetailsHolder;
@@ -14,15 +16,15 @@ public class ActivityBoard : MonoBehaviour
     [SerializeField] GameObject[] lootIcons;
     [SerializeField] ExpeditionManager expeditionManager;
 
-    int selectedActivity;
-
-    string currentDescription;
-    int currentDanger;
-    int currentLootLevel;
+    string[] descriptions;
+    int[] dangers;
+    int[] lootLevels;
 
     void Start()
     {
-        UpdateActivityBoard();
+        Instance = this;
+
+        SetUpActivityBoard();
     }
 
     public void DoActivity()
@@ -30,8 +32,12 @@ public class ActivityBoard : MonoBehaviour
         Debug.Log("Do activity");
     }
 
-    void UpdateActivityBoard()
+    void SetUpActivityBoard()
     {
+        descriptions = new string[expeditionManager.Expeditions.Length];
+        dangers = new int[expeditionManager.Expeditions.Length];
+        lootLevels = new int[expeditionManager.Expeditions.Length];
+
         // Loop through every expedition/activity
         for (int i = 0; i < expeditionManager.Expeditions.Length; i++)
         {
@@ -41,30 +47,26 @@ public class ActivityBoard : MonoBehaviour
             // Give it the  name
             newButton.GetComponent<TextMeshProUGUI>().text = expeditionManager.Expeditions[i].Name;
 
-            currentDescription = expeditionManager.Expeditions[i].Description;
-            currentDanger = expeditionManager.Expeditions[i].Danger;
-            currentLootLevel = expeditionManager.Expeditions[i].LootLevel;
-            // Make it so the button activates the description with the specific values for this expedition/activity
-            newButton.GetComponent<Button>().onClick.AddListener(delegate {
-                ShowActivityDescription(i);
-            });
+            descriptions[i] = expeditionManager.Expeditions[i].Description;
+            dangers[i] = expeditionManager.Expeditions[i].Danger;
+            lootLevels[i] = expeditionManager.Expeditions[i].LootLevel;
         }
     }
 
-    void ShowActivityDescription(int index)
+    public void ShowActivityDescription(int index)
     {
-        selectedActivity = index;
+        AudioManager.Instance.Play("ExpeditionDetails");
 
-        descriptionText.text = currentDescription;
+        descriptionText.text = descriptions[index];
 
         for (int i = 0; i < lootIcons.Length; i++)
         {
-            if (i == currentLootLevel)
+            if (i == lootLevels[index])
                 lootIcons[i].SetActive(true);
             else
                 lootIcons[i].SetActive(false);
             
-            if (i == currentDanger)
+            if (i == dangers[index])
                 dangerIcons[i].SetActive(true);
             else
                 dangerIcons[i].SetActive(false);
@@ -72,5 +74,14 @@ public class ActivityBoard : MonoBehaviour
 
         activityTextHolder.gameObject.SetActive(false);
         activityDetailsHolder.SetActive(true);
+    
+    }
+
+    public void CloseActivityBoard()
+    {
+        activityDetailsHolder.SetActive(false);
+        activityTextHolder.gameObject.SetActive(true);
+
+        gameObject.SetActive(false);
     }
 }

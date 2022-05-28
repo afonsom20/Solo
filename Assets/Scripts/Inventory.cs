@@ -41,6 +41,9 @@ public class Inventory : MonoBehaviour
         // If the loot is still not present in the inventory, add it
         Loot.Add(loot);
         Amounts.Add(amount);
+        // Change the text to represent the amount found - DOESN'T WORK
+        //if (Loot.Count > 0)
+        //    itemHolder.GetChild(itemHolder.childCount - 1).GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = Amounts[Amounts.Count - 1].ToString();
 
         // Add the UI prefab object to the inventory UI
         GameObject newItem = Instantiate(UIPrefab, itemHolder);

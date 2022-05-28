@@ -6,18 +6,20 @@ using AllIn1SpriteShader;
 
 public class OutlineToggler : MonoBehaviour
 {
-    Material mat;
+    Image image;
 
     void Start()
     {
-        mat = GetComponent<Image>().material;    
+        image = GetComponent<Image>();
     }
 
     public void ToggleOutline()
     {
-        if (mat.IsKeywordEnabled("OUTBASE_ON"))
-            mat.DisableKeyword("OUTBASE_ON");
+        Color color = image.color;
+
+        if (color.a == 0)
+            image.color = new Color (color.r, color.g, color.b, 1);
         else
-            mat.EnableKeyword("OUTBASE_ON");
+            image.color = new Color(color.r, color.g, color.b, 0);
     }
 }

@@ -8,22 +8,12 @@ public class CanvasManager : MonoBehaviour
     public static CanvasManager Instance { get; set; }
 
     [SerializeField] GameObject inventoryBoard;
-    [SerializeField] GameObject expeditionsBoard;
+    [SerializeField] GameObject activitiesBoard;
     [SerializeField] GameObject expeditionRecapBoard;
-    [SerializeField] GameObject expeditionTextHolder;
-    [SerializeField] GameObject[] expeditionDetails;
 
     void Awake()
     {
         Instance = this;       
-    }
-
-    public void ToggleExpeditionDetails(int expeditionNumber)
-    {
-        expeditionTextHolder.SetActive(!expeditionTextHolder.activeInHierarchy);
-        expeditionDetails[expeditionNumber].SetActive(!expeditionDetails[expeditionNumber].activeInHierarchy);
-
-        AudioManager.Instance.Play("ExpeditionDetails");
     }
 
     public void ToggleInventory()
@@ -38,17 +28,9 @@ public class CanvasManager : MonoBehaviour
         AudioManager.Instance.Play("CheckBoard");
     }    
     
-    public void ToggleExpeditionBoard()
+    public void ActivateActivityBoard()
     {
-
-        for (int i = 0; i < expeditionDetails.Length; i++)
-        {
-            expeditionDetails[i].SetActive(false);
-        }
-
-        expeditionTextHolder.SetActive(true);
-
-        expeditionsBoard.SetActive(!expeditionsBoard.activeInHierarchy);
+        activitiesBoard.SetActive(true);
         
         AudioManager.Instance.Play("CheckBoard");
     }
@@ -66,7 +48,8 @@ public class CanvasManager : MonoBehaviour
     public void HideAllBoards()
     {
         inventoryBoard.SetActive(false);
-        expeditionTextHolder.SetActive(false);
-        expeditionsBoard.SetActive(false);
+        activitiesBoard.SetActive(false);
+        if (ActivityBoard.Instance != null)
+            ActivityBoard.Instance.CloseActivityBoard();
     }
 }
