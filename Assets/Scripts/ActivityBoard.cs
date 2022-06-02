@@ -8,6 +8,8 @@ public class ActivityBoard : MonoBehaviour
 {
     public static ActivityBoard Instance { get; set; }
 
+    public int SelectedActivity; // this variable is used by the ExpeditionManager to know which expedition to go on
+
     [SerializeField] GameObject activityButtonPrefab;
     [SerializeField] Transform activityTextHolder;
     [SerializeField] GameObject activityDetailsHolder;
@@ -56,6 +58,9 @@ public class ActivityBoard : MonoBehaviour
     public void ShowActivityDescription(int index)
     {
         AudioManager.Instance.Play("ExpeditionDetails");
+
+        // So the ExpeditionManager knows which expedition to go on if the player decides to go on this one
+        SelectedActivity = index;
 
         descriptionText.text = descriptions[index];
 

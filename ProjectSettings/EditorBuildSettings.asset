@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: fa7b327c37b4f594c9c55a9781a157f4
   - enabled: 1
+    path: Assets/Scenes/CinematicIntro.unity
+    guid: cd27b9b3726cd544e8e73ff57f7ea68e
+  - enabled: 1
     path: Assets/Scenes/Apartment.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}

@@ -8,11 +8,15 @@ public class PlayerStatusManager : MonoBehaviour
 {
     public static PlayerStatusManager Instance { get; set; }
 
+    public int Food = 6;
+    
     [HideInInspector] public int Health;
     [HideInInspector] public int Energy;
     [HideInInspector] public int Hygiene;
     [HideInInspector] public int Hope;
-    public int Food = 6;
+
+    [HideInInspector] public bool Sick = false;
+    [HideInInspector] public bool Wounded = false;
 
     [Space, Header("Death Screen")]
     [SerializeField] GameObject deathScreen;
@@ -24,6 +28,7 @@ public class PlayerStatusManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI foodText;
 
     [Space, Header("Action Effects")]
+    [SerializeField] int restEffectOnHealth = 10;
     [SerializeField] int restEffectOnEnergy = 50;
     [SerializeField] int hygienizeEffectOnHygiene = 44;
     [SerializeField] int hygienizeEffectOnHope = 15;
@@ -32,6 +37,14 @@ public class PlayerStatusManager : MonoBehaviour
     [SerializeField] int energyDecreasePerPhase = 15;
     [SerializeField] int hygieneDecreasePerPhase = 15;
     [SerializeField] int hopeDecreasePerPhase = 5;
+
+    [Space, Header("Sickness and Wounds")]
+    [SerializeField] int sickenssHealthDecrease = 5;
+    [SerializeField] int probabilityOfHealingSicknessPerPhase = 7;
+    [SerializeField] int minimumSicknessPhases = 2; 
+    [SerializeField] int woundHealthDecrease = 10;
+    [SerializeField] int probabilityOfHealingWoundPerPhase = 4;
+    [SerializeField] int minimumWoundedPhases = 4;
 
     [Space, Header("Thresholds and Effects")]
     [SerializeField] int lowHealthThreshold = 30;
@@ -50,6 +63,9 @@ public class PlayerStatusManager : MonoBehaviour
     int maxHygiene;
     int maxHope;
 
+    int phasesSinceBecameSick;
+    int phasesSinceBecameWounded;
+
     void Awake()
     {
         Instance = this;
@@ -64,7 +80,7 @@ public class PlayerStatusManager : MonoBehaviour
         Health = maxHealth;
         Energy = Mathf.RoundToInt(maxEnergy / 1.5f);
         Hygiene = Mathf.RoundToInt(maxHygiene / 2.5f);
-        Hope = 0;
+        Hope = Mathf.RoundToInt(maxHope / 3f);
 
         UpdateStatusMeters();
     }
@@ -133,6 +149,56 @@ public class PlayerStatusManager : MonoBehaviour
         Hope -= hopeDecreasePerPhase;
         if (Hope < 0)
             Hope = 0;
+
+
+        // SICKNESS and WOUNDS
+        // If the player is sick
+        if (Sick)
+        {
+            // Decrease their health
+            Health -= sickenssHealthDecrease;
+
+            // Check how many phases have passed since the player became sick
+            if (phasesSinceBecameSick > minimumSicknessPhases)
+            {
+                // If enough time has passed, there's a chance that the player fights off the illness. This chance increases each phase
+                if (Random.Range(0, 100) <= (phasesSinceBecameSick * probabilityOfHealingSicknessPerPhase))
+                {
+                    Sick = false;
+                    InformationManager.Instance.SendInfo(0, "Your body managed to overcome your dangerous illness.");
+                }             
+                
+            }
+
+            phasesSinceBecameSick += 1;
+        }
+        else
+            phasesSinceBecameSick = 0;
+
+        // If the player is wounded
+        if (Wounded)
+        {
+            // Decrease their health
+            Health -= woundHealthDecrease;
+            Debug.Log("Take health from wound");
+            // Check how many phases have passed since the player became sick
+            if (phasesSinceBecameWounded > minimumWoundedPhases)
+            {
+                Debug.Log("Check for wound auto-heal - probability = " + (phasesSinceBecameWounded * probabilityOfHealingWoundPerPhase));
+                // If enough time has passed, there's a chance that the player fights off the illness. This chance increases each phase
+                if (Random.Range(0, 100) <= (phasesSinceBecameWounded * probabilityOfHealingWoundPerPhase))
+                {
+                    Wounded = false;
+                    InformationManager.Instance.SendInfo(0, "Your body managed to heal your wounds");
+                }
+
+            }
+
+            phasesSinceBecameWounded += 1;
+        }
+        else
+            phasesSinceBecameWounded = 0;
+
     }
 
     public void CheckPlayerCondition()
@@ -189,6 +255,9 @@ public class PlayerStatusManager : MonoBehaviour
     {
         // Gain energy when resting
         Energy += restEffectOnEnergy;
+
+        // Heal when resting;
+        Health += restEffectOnHealth;
 
         if (Energy > maxEnergy) 
             Energy = maxEnergy;

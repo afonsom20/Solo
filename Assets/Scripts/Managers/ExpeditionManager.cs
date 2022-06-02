@@ -16,13 +16,21 @@ public class ExpeditionManager : MonoBehaviour
     [Space, Header("Variables")]
     [SerializeField] int hopeIncreaseBase = 5;
     [SerializeField] int lootChanceIncreaseFactor = 4;
+    [SerializeField] int minimumWoundChance = 40;
+    [SerializeField] int minimumFightHealthDecrease = 10;
+    [SerializeField] int fightHealthDecreaseDeviation = 5;
 
     int danger;
     int lootLevel;
     int fightChance;
 
-    public void GoOnExpedition(int index)
+    public void GoOnExpedition()
     {
+        // Before going on an expedition, the player must see its details
+        // When this happens, the ActivityBoard registers the index of the currently selected expedition
+        // Therefore, if the player decides to go on this one, this script knows what the correct index is
+        int index = ActivityBoard.Instance.SelectedActivity;
+
         danger = Expeditions[index].Danger;
         lootLevel = Expeditions[index].LootLevel;
         fightChance = Expeditions[index].FightEncounterChance;
@@ -33,6 +41,8 @@ public class ExpeditionManager : MonoBehaviour
         
 
         GetLoot();
+
+        Debug.Log(danger + ", " + lootLevel + ", " + fightChance);
 
         if (Random.Range(0, 100) <= fightChance)
         {
@@ -70,8 +80,12 @@ public class ExpeditionManager : MonoBehaviour
 
         // For every Loot possible...
         for (int i = 0; i < Loot.Length; i++)
-        {            
-            // ... "roll the dice" to see if it will be found on this expedition
+        {
+            // ... check if this loot can be found on this expedition's loot level
+            if (Loot[i].MinimumLevel > lootLevel)
+                return;
+
+            // If so, "roll the dice" to see if it will be found on this expedition
             // Note that the an expedition with a higher loot and danger levels will increase the chances of finding that loot item
             if (Loot[i].ChanceToFind + chanceIncreaseFactor >= Random.Range(0, 100))
             {
@@ -90,6 +104,26 @@ public class ExpeditionManager : MonoBehaviour
 
     void Fight()
     {
-        Debug.Log("A fight occurred!");
+        // Calculate factors for decreasing the player's Health
+        int deviationFactor = Random.Range(0, 2) * 2 - 1; // returns -1 or 1
+        int damage = (minimumFightHealthDecrease * danger) + (deviationFactor * fightHealthDecreaseDeviation);
+        // Decrease the player's Health
+        PlayerStatusManager.Instance.Health -= damage;
+        
+        // Send info about the fight
+        StartCoroutine(InformationManager.Instance.SendDelayedInfo(4, "You got ambushed while exploring and had to fight."));
+        
+        // Check if the player got wounded during the fight
+        if (!PlayerStatusManager.Instance.Wounded)
+        {
+            int woundChance = minimumWoundChance + (10 * danger);
+
+            if (Random.Range(0, 100) <= woundChance)
+            {
+                PlayerStatusManager.Instance.Wounded = true;
+                StartCoroutine(InformationManager.Instance.SendDelayedInfo(3, "You got wounded in a fight. Treat it with a First Aid Kit"));
+            }
+        }
+
     }
 }
