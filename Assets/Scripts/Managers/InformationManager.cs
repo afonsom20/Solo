@@ -12,7 +12,14 @@ public class InformationManager : MonoBehaviour
     [SerializeField] Transform infoHolder;
 
     [Header("Info type customization"), Space]
-    [SerializeField, Tooltip("0 - info, 1 - alert, 2 - sickness, 3 - wound, 4 - fight, 5 - visitor")] Sprite[] icons; 
+    [SerializeField, 
+        Tooltip("0 - info, " +
+        "1 - alert, " +
+        "2 - sickness, " +
+        "3 - wound, " +
+        "4 - fight, " +
+        "5 - visitor" + 
+        "6 - warning")] Sprite[] icons; 
     [SerializeField] Color[] iconColors;
     [SerializeField] Sprite[] panels;
 
@@ -24,7 +31,7 @@ public class InformationManager : MonoBehaviour
     /// <summary>
     /// Function to send info to the player
     /// </summary>
-    /// <param name="infoType">0 - info, 1 - alert, 2 - sickness, 3 - wound, 4 - fight, 5 - visitor</param>
+    /// <param name="infoType">0 - info, 1 - alert, 2 - sickness, 3 - wound, 4 - fight, 5 - visitor, 6 - warning</param>
     public void SendInfo(int infoType, string message)
     {
         //Debug.Log("Message: " + infoType + ", " + message);

@@ -19,7 +19,6 @@ public class CanvasManager : MonoBehaviour
     public void ToggleInventory()
     {
         inventoryBoard.SetActive(!inventoryBoard.activeInHierarchy);
-        AudioManager.Instance.Play("CheckBoard");
     }    
     
     public void ToggleExpeditionRecapBoard()

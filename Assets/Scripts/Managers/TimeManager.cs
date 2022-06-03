@@ -76,7 +76,7 @@ public class TimeManager : MonoBehaviour
         if (CurrentPhase == DayPhase.Night)
             yield return new WaitForSeconds(1.5f);        
         else
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(3.5f);
 
         // Go into the day
         if (CurrentPhase == DayPhase.Day)

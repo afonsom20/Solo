@@ -18,4 +18,10 @@ public class CinematicIntro : MonoBehaviour
         if (!videoPlayer.isPlaying)
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+
+    public void Skip()
+    {
+        videoPlayer.Stop();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
 }

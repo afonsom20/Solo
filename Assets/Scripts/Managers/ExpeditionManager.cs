@@ -35,6 +35,8 @@ public class ExpeditionManager : MonoBehaviour
         lootLevel = Expeditions[index].LootLevel;
         fightChance = Expeditions[index].FightEncounterChance;
 
+        AudioManager.Instance.Play("Expedition");
+
         // Reset the expedition board
         foreach (Transform child in expeditionRecapTextHolder)
             Destroy(child.gameObject);

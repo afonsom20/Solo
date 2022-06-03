@@ -29,11 +29,6 @@ public class ActivityBoard : MonoBehaviour
         SetUpActivityBoard();
     }
 
-    public void DoActivity()
-    {
-        Debug.Log("Do activity");
-    }
-
     void SetUpActivityBoard()
     {
         descriptions = new string[expeditionManager.Expeditions.Length];

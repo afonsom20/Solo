@@ -47,10 +47,10 @@ public class PlayerStatusManager : MonoBehaviour
     [SerializeField] int minimumWoundedPhases = 4;
 
     [Space, Header("Thresholds and Effects")]
-    [SerializeField] int lowHealthThreshold = 30;
-    [SerializeField] int lowEnergyThreshold = 30;
-    [SerializeField] int lowHygieneThreshold = 25;
-    [SerializeField] int lowHopeThreshold = 25;
+    public int LowHealthThreshold = 30; // these are public because they're read by the StatusIcon script on start
+    public int LowEnergyThreshold = 30;
+    public int LowHygieneThreshold = 25;
+    public int LowHopeThreshold = 25;
     [SerializeField] int foodEatenPerDay = 2;
     [Space]
     [SerializeField] int lowEnergyHealthEffect = 15;
@@ -99,7 +99,14 @@ public class PlayerStatusManager : MonoBehaviour
         // The player has enough food, so they eat it
         if (Food > foodEatenPerDay)
         {
-            foodText.color = Color.white;
+            if (Food <= 2 * foodEatenPerDay)
+            {
+                InformationManager.Instance.SendInfo(6, "You're running low on Food!");
+                foodText.color = Color.yellow;
+            }
+            else
+                foodText.color = Color.white;
+
             Food -= foodEatenPerDay;
         }
         // If the player does not have enough food to feed themselves for today
@@ -116,6 +123,7 @@ public class PlayerStatusManager : MonoBehaviour
             // If the player doesn't have any food, they get the biggest health decrease
             else
             {
+                InformationManager.Instance.SendInfo(1, "You're out of Food!");
                 Health -= noFoodHealthEffect;
                 Food = 0;
             }
@@ -209,19 +217,19 @@ public class PlayerStatusManager : MonoBehaviour
         }
 
         // Low energy effect on health
-        if (Energy <= lowEnergyThreshold)
+        if (Energy <= LowEnergyThreshold)
         {
             Health -= lowEnergyHealthEffect;
         }
 
         // Low hygiene effect on health
-        if (Hygiene <= lowHygieneThreshold)
+        if (Hygiene <= LowHygieneThreshold)
         {
             Health -= lowHygieneHealthEffect;
         }
 
         // Low hope effect on health
-        if (Hope <= lowHopeThreshold)
+        if (Hope <= LowHopeThreshold)
         {
             Health -= lowHopeHealthEffect;
         }
@@ -229,23 +237,23 @@ public class PlayerStatusManager : MonoBehaviour
         // Update UI
         UpdateStatusMeters();
 
-        // LOW STATUS ALERTS
-        if (Health < lowHealthThreshold)
+        // LOW STATUS ALERTS - these must be done AFTER the UI update
+        if (Health <= LowHealthThreshold)
         {
             InformationManager.Instance.SendInfo(1, "Your Health is dangerously low");
         }
 
-        if (Energy < lowEnergyThreshold)
+        if (Energy <= LowEnergyThreshold)
         {
             InformationManager.Instance.SendInfo(1, "Your Energy is dangerously low");
         }
 
-        if (Hygiene < lowHygieneThreshold)
+        if (Hygiene <= LowHygieneThreshold)
         {
             InformationManager.Instance.SendInfo(1, "Your Hygiene is dangerously low");
         }
 
-        if (Hope < lowHopeThreshold)
+        if (Hope <= LowHopeThreshold)
         {
             InformationManager.Instance.SendInfo(1, "Your Hope is dangerously low");
         }
@@ -260,7 +268,10 @@ public class PlayerStatusManager : MonoBehaviour
         Health += restEffectOnHealth;
 
         if (Energy > maxEnergy) 
-            Energy = maxEnergy;
+            Energy = maxEnergy;        
+        
+        if (Health > maxHealth) 
+            Health = maxHealth;
 
         UpdateStatusMeters();
 
