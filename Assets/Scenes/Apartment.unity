@@ -1250,9 +1250,9 @@ MonoBehaviour:
     Description: There was a big supermarket close to my apartment. I'm not even
       sure it's even there anymore, but it could be worth checking out. Although
       I'm sure others have the same idea.
-    Danger: 2
-    LootLevel: 2
-    FightEncounterChance: 33
+    Danger: 3
+    LootLevel: 3
+    FightEncounterChance: 40
   Loot:
   - {fileID: 11400000, guid: 10a8fdc1d0e699e4aa91810b2017575b, type: 2}
   - {fileID: 11400000, guid: a20b9111188bd0b4cb16eddcdfe3f4d0, type: 2}
@@ -1260,6 +1260,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 54edc78a8143cba4fac9a1841655cd89, type: 2}
   - {fileID: 11400000, guid: 6d6e07dfe1506d949a4051c0ea9075ab, type: 2}
   - {fileID: 11400000, guid: c0026abd2c1d5fd48a1d2c601fc9b5c6, type: 2}
+  - {fileID: 11400000, guid: 810be997c1e2c77499095ed7994f8e99, type: 2}
   inventory: {fileID: 448457328}
   handwrittenTextPrefab: {fileID: 1886413856669276188, guid: 35cc19f81fe4ae7469f220b1017536fc, type: 3}
   expeditionRecapTextHolder: {fileID: 2092153354}

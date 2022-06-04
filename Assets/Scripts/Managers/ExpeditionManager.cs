@@ -44,8 +44,6 @@ public class ExpeditionManager : MonoBehaviour
 
         GetLoot();
 
-        Debug.Log(danger + ", " + lootLevel + ", " + fightChance);
-
         if (Random.Range(0, 100) <= fightChance)
         {
             Fight();
@@ -109,8 +107,14 @@ public class ExpeditionManager : MonoBehaviour
         // Calculate factors for decreasing the player's Health
         int deviationFactor = Random.Range(0, 2) * 2 - 1; // returns -1 or 1
         int damage = (minimumFightHealthDecrease * danger) + (deviationFactor * fightHealthDecreaseDeviation);
-        // Decrease the player's Health
-        PlayerStatusManager.Instance.Health -= damage;
+
+        // If this fight would kill the player, just lower their health to 5
+        if (PlayerStatusManager.Instance.Health - damage <= 0)
+            PlayerStatusManager.Instance.Health = 5;
+        // If not, simply decrease the player's Health
+        else
+            PlayerStatusManager.Instance.Health -= damage;
+
         
         // Send info about the fight
         StartCoroutine(InformationManager.Instance.SendDelayedInfo(4, "You got ambushed while exploring and had to fight."));
