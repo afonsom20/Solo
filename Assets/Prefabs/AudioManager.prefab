@@ -114,3 +114,24 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
     group: {fileID: 24300002, guid: 30049a51ddaa2844097e01bd8a2ae1b4, type: 2}
+  - name: Cough
+    clip: {fileID: 8300000, guid: edeed14f4b1e60d4bac3b4b2224cb25e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+    group: {fileID: 24300002, guid: 30049a51ddaa2844097e01bd8a2ae1b4, type: 2}
+  - name: First Aid Kit
+    clip: {fileID: 8300000, guid: 721d18f38c0a8704d910ee12ba41ca59, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+    group: {fileID: 24300002, guid: 30049a51ddaa2844097e01bd8a2ae1b4, type: 2}
+  - name: Drugs
+    clip: {fileID: 8300000, guid: 5b6147c98fe725e4e8da6815e8291cdd, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+    group: {fileID: 24300002, guid: 30049a51ddaa2844097e01bd8a2ae1b4, type: 2}

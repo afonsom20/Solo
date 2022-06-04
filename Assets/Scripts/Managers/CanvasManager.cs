@@ -42,6 +42,11 @@ public class CanvasManager : MonoBehaviour
     public void BackToMenu()
     {
         SceneManager.LoadScene(0);
+    }    
+    
+    public void Credits()
+    {
+        SceneManager.LoadScene(3);
     }
 
     public void HideAllBoards()

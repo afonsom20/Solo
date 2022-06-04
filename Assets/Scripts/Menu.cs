@@ -26,9 +26,19 @@ public class Menu : MonoBehaviour
     {
         animator.Play("OpenSettings");
     }
-
-    public void BackToMenu()
+    
+    public void Credits()
     {
-        animator.Play("BackToMenu");
+        animator.Play("OpenCredits");
+    }
+
+    public void BackToMenuFromSettings()
+    {
+        animator.Play("BackToMenuFromSettings");
+    }    
+    
+    public void BackToMenuFromCredits()
+    {
+        animator.Play("BackToMenuFromCredits");
     }
 }

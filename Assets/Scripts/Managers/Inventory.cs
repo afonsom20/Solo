@@ -8,10 +8,17 @@ public class Inventory : MonoBehaviour
 {
     [SerializeField] GameObject UIPrefab;
     [SerializeField] Transform itemHolder;
+    //[SerializeField] Loot DEBUG;
 
     List<Loot> loot = new List<Loot>();
     List<int> amounts = new List<int>();
 
+    /*
+    private void Start()
+    {
+        AddLoot(DEBUG, 1);
+    }
+    */
     public void AddLoot(Loot lootFound, int amountFound)
     {
         // Check every current inventory item
@@ -73,8 +80,9 @@ public class Inventory : MonoBehaviour
 
                     // The player stops being sick
                     PlayerStatusManager.Instance.Sick = false;
+                    PlayerStatusManager.Instance.IncreaseHealth(20);
                     InformationManager.Instance.SendInfo(0, "You take some medicine and quickly start to feel better");
-
+                    AudioManager.Instance.Play("Drugs");
 
                     // If there are still Drugs
                     if (amounts[i] != 0)
@@ -107,7 +115,9 @@ public class Inventory : MonoBehaviour
 
                     // The player stops being wounded
                     PlayerStatusManager.Instance.Wounded = false;
+                    PlayerStatusManager.Instance.IncreaseHealth(30);
                     InformationManager.Instance.SendInfo(0, "You patched yourself up, stopping the bleeding");
+                    AudioManager.Instance.Play("First Aid Kit");
 
                     // If there are still First Aid Kits
                     if (amounts[i] > 0)

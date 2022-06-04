@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
 
-public class CinematicIntro : MonoBehaviour
+public class Cinematic : MonoBehaviour
 {
     [SerializeField] VideoPlayer videoPlayer;
+    [SerializeField] int sceneToLoad = 0;
 
     void Start()
     {
@@ -16,12 +17,12 @@ public class CinematicIntro : MonoBehaviour
     void CheckIfVideoFinished()
     {
         if (!videoPlayer.isPlaying)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            SceneManager.LoadScene(sceneToLoad);
     }
 
     public void Skip()
     {
         videoPlayer.Stop();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(sceneToLoad);
     }
 }

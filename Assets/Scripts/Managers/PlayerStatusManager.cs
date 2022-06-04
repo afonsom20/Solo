@@ -26,6 +26,8 @@ public class PlayerStatusManager : MonoBehaviour
     [SerializeField] Slider hygieneSlider;
     [SerializeField] Slider hopeSlider;
     [SerializeField] TextMeshProUGUI foodText;
+    [SerializeField] GameObject sicknessIndicator;
+    [SerializeField] GameObject woundIndicator;
 
     [Space, Header("Action Effects")]
     [SerializeField] int restEffectOnHealth = 10;
@@ -39,6 +41,7 @@ public class PlayerStatusManager : MonoBehaviour
     [SerializeField] int hopeDecreasePerPhase = 5;
 
     [Space, Header("Sickness and Wounds")]
+    [SerializeField] int chanceOfSicknessOnLowHygiene = 10;
     [SerializeField] int sickenssHealthDecrease = 5;
     [SerializeField] int probabilityOfHealingSicknessPerPhase = 7;
     [SerializeField] int minimumSicknessPhases = 2; 
@@ -83,6 +86,20 @@ public class PlayerStatusManager : MonoBehaviour
         Hope = Mathf.RoundToInt(maxHope / 3f);
 
         UpdateStatusMeters();
+    }
+
+    void Update()
+    {
+        if (Sick)
+            sicknessIndicator.SetActive(true);
+        else
+            sicknessIndicator.SetActive(false);
+
+        if (Wounded)
+            woundIndicator.SetActive(true);
+        else
+            woundIndicator.SetActive(false);
+
     }
 
     void UpdateStatusMeters()
@@ -181,7 +198,10 @@ public class PlayerStatusManager : MonoBehaviour
             phasesSinceBecameSick += 1;
         }
         else
+        {
             phasesSinceBecameSick = 0;
+        }
+
 
         // If the player is wounded
         if (Wounded)
@@ -205,7 +225,9 @@ public class PlayerStatusManager : MonoBehaviour
             phasesSinceBecameWounded += 1;
         }
         else
+        {
             phasesSinceBecameWounded = 0;
+        }
 
     }
 
@@ -226,6 +248,14 @@ public class PlayerStatusManager : MonoBehaviour
         if (Hygiene <= LowHygieneThreshold)
         {
             Health -= lowHygieneHealthEffect;
+
+            // If the player is not currently sick, low hygiene could lead to the contraction of an illness
+            if ((!Sick) && (Random.Range(0, 100) <= chanceOfSicknessOnLowHygiene))
+            {
+                Sick = true;
+                InformationManager.Instance.SendInfo(2, "You became sick due to low Hygiene. Take some Drugs to heal");
+                AudioManager.Instance.Play("Cough");
+            }
         }
 
         // Low hope effect on health
@@ -311,6 +341,16 @@ public class PlayerStatusManager : MonoBehaviour
 
         if (Hope >= maxHope)
             Hope = maxHope;
+
+        UpdateStatusMeters();
+    }
+
+    public void IncreaseHealth(int amount)
+    {
+        Health += amount;
+
+        if (Health >= maxHealth)
+            Health = maxHealth;
 
         UpdateStatusMeters();
     }

@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: First Aid Kit
   MinimumLevel: 3
-  ChanceToFind: 40
+  ChanceToFind: 20
+  FixedAmount: 1
   AmountMin: 1
   AmountMax: 0
   Icon: {fileID: 21300000, guid: ae96e55fdccd7d242afac045049039cc, type: 3}

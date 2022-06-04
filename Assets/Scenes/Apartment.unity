@@ -157,7 +157,7 @@ RectTransform:
   - {fileID: 1615523684}
   - {fileID: 199953439}
   m_Father: {fileID: 617820247}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -306,7 +306,7 @@ RectTransform:
   - {fileID: 674484817}
   - {fileID: 547562671}
   m_Father: {fileID: 617820247}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -602,13 +602,16 @@ MonoBehaviour:
   hygieneSlider: {fileID: 921765425}
   hopeSlider: {fileID: 1724010621}
   foodText: {fileID: 1161564558}
+  sicknessIndicator: {fileID: 92667473}
+  woundIndicator: {fileID: 1145297598}
   restEffectOnHealth: 10
   restEffectOnEnergy: 50
   hygienizeEffectOnHygiene: 35
   hygienizeEffectOnHope: 15
   energyDecreasePerPhase: 10
-  hygieneDecreasePerPhase: 8
+  hygieneDecreasePerPhase: 5
   hopeDecreasePerPhase: 5
+  chanceOfSicknessOnLowHygiene: 10
   sickenssHealthDecrease: 5
   probabilityOfHealingSicknessPerPhase: 7
   minimumSicknessPhases: 2
@@ -773,6 +776,81 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 86772451}
+  m_CullTransparentMesh: 1
+--- !u!1 &92667473
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 92667474}
+  - component: {fileID: 92667476}
+  - component: {fileID: 92667475}
+  m_Layer: 5
+  m_Name: Sickness Indicator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &92667474
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92667473}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1870893419}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 35.73725, y: -50}
+  m_SizeDelta: {x: 71.4745, y: 67.0589}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &92667475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92667473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.74509805, g: 0.14901961, b: 0.14509805, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: c735c2fbfeffe4e45ac4bec63c724cfe, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &92667476
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92667473}
   m_CullTransparentMesh: 1
 --- !u!1 &117154538
 GameObject:
@@ -1232,27 +1310,27 @@ MonoBehaviour:
       won't find much, but I shouldn't expect much danger either.
     Danger: 0
     LootLevel: 1
-    FightEncounterChance: 5
+    FightEncounterChance: 0
   - Name: Explore the lower floors
     Description: Some thugs have been roaming around the lower floors lately. There
       might be some good stuff down there, but I should try to avoid any confrontation.
     Danger: 1
     LootLevel: 2
-    FightEncounterChance: 20
+    FightEncounterChance: 15
   - Name: Explore the neighbourhood
     Description: Altough the streets are still irradiated, I can take my gas mask
       and explore the surroundings. There's gotta be good stuff out there, but it
       might come at a cost...
     Danger: 2
     LootLevel: 2
-    FightEncounterChance: 33
+    FightEncounterChance: 20
   - Name: Loot a supermarket
     Description: There was a big supermarket close to my apartment. I'm not even
       sure it's even there anymore, but it could be worth checking out. Although
       I'm sure others have the same idea.
     Danger: 3
     LootLevel: 3
-    FightEncounterChance: 40
+    FightEncounterChance: 33
   Loot:
   - {fileID: 11400000, guid: 10a8fdc1d0e699e4aa91810b2017575b, type: 2}
   - {fileID: 11400000, guid: a20b9111188bd0b4cb16eddcdfe3f4d0, type: 2}
@@ -1266,7 +1344,7 @@ MonoBehaviour:
   expeditionRecapTextHolder: {fileID: 2092153354}
   hopeIncreaseBase: 5
   lootChanceIncreaseFactor: 4
-  minimumWoundChance: 50
+  minimumWoundChance: 25
   minimumFightHealthDecrease: 15
   fightHealthDecreaseDeviation: 5
 --- !u!1 &199953438
@@ -1628,7 +1706,7 @@ RectTransform:
   - {fileID: 2070945545}
   - {fileID: 1395356589}
   m_Father: {fileID: 617820247}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2151,7 +2229,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 16777215
   m_fontColor: {r: 1, g: 1, b: 1, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -3288,7 +3366,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &560551999
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3355,7 +3433,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 617820248}
         m_TargetAssemblyTypeName: CanvasManager, Assembly-CSharp
-        m_MethodName: BackToMenu
+        m_MethodName: Credits
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3875,13 +3953,13 @@ RectTransform:
   - {fileID: 556167474}
   - {fileID: 162522292}
   - {fileID: 1435113585}
-  - {fileID: 2123466468}
   - {fileID: 1579704969}
   - {fileID: 307799866}
   - {fileID: 22848636}
   - {fileID: 694375122}
   - {fileID: 401645494}
   - {fileID: 9358139}
+  - {fileID: 2123466468}
   - {fileID: 337145937}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -4106,6 +4184,7 @@ RectTransform:
   m_Children:
   - {fileID: 1161806606}
   - {fileID: 1848516984}
+  - {fileID: 1870893419}
   m_Father: {fileID: 162522292}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4484,7 +4563,7 @@ RectTransform:
   m_Children:
   - {fileID: 1145462977}
   m_Father: {fileID: 617820247}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -5377,7 +5456,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4043309055
+    rgba: 16777215
   m_fontColor: {r: 1, g: 1, b: 1, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -6222,7 +6301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1573e3e103e47bc4aba02d536c6ae821, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DaysUntilRescue: 30
+  DaysUntilRescue: 31
   backgrounds:
   - {fileID: 1571087100}
   - {fileID: 1726029636}
@@ -6267,6 +6346,81 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1145297598
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1145297599}
+  - component: {fileID: 1145297601}
+  - component: {fileID: 1145297600}
+  m_Layer: 5
+  m_Name: Wound Indicator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1145297599
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145297598}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1870893419}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 115.1061, y: -50}
+  m_SizeDelta: {x: 71.4745, y: 67.0589}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1145297600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145297598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.74509805, g: 0.14901961, b: 0.14509805, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: d54a9728519c5d54bbe09aff5bd95284, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1145297601
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145297598}
+  m_CullTransparentMesh: 1
 --- !u!1 &1145462976
 GameObject:
   m_ObjectHideFlags: 0
@@ -8978,7 +9132,7 @@ RectTransform:
   - {fileID: 728643929}
   - {fileID: 929133339}
   m_Father: {fileID: 617820247}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -10591,6 +10745,70 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 401645493}
+--- !u!1 &1870893418
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1870893419}
+  - component: {fileID: 1870893420}
+  m_Layer: 5
+  m_Name: Indicator Holder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1870893419
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870893418}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 92667474}
+  - {fileID: 1145297599}
+  m_Father: {fileID: 630288935}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 405.19885, y: 0.8}
+  m_SizeDelta: {x: 190.5977, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1870893420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870893418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 3
+  m_Spacing: -31.86
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &1943495599
 GameObject:
   m_ObjectHideFlags: 0
@@ -11877,7 +12095,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 617820247}
-  m_RootOrder: 5
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -12098,7 +12316,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8137414763099892946, guid: 41b1a6f48b94f814d9dde96061dc9e0a, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8137414763099892946, guid: 41b1a6f48b94f814d9dde96061dc9e0a, type: 3}
       propertyPath: m_AnchorMax.x
