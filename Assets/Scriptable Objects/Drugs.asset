@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Drugs
   MinimumLevel: 2
-  ChanceToFind: 10
+  ChanceToFind: 5
   FixedAmount: 1
   AmountMin: 1
   AmountMax: 0

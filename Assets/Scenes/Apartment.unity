@@ -1316,21 +1316,21 @@ MonoBehaviour:
       might be some good stuff down there, but I should try to avoid any confrontation.
     Danger: 1
     LootLevel: 2
-    FightEncounterChance: 15
+    FightEncounterChance: 20
   - Name: Explore the neighbourhood
     Description: Altough the streets are still irradiated, I can take my gas mask
       and explore the surroundings. There's gotta be good stuff out there, but it
       might come at a cost...
     Danger: 2
     LootLevel: 2
-    FightEncounterChance: 20
+    FightEncounterChance: 30
   - Name: Loot a supermarket
     Description: There was a big supermarket close to my apartment. I'm not even
       sure it's even there anymore, but it could be worth checking out. Although
       I'm sure others have the same idea.
     Danger: 3
     LootLevel: 3
-    FightEncounterChance: 33
+    FightEncounterChance: 40
   Loot:
   - {fileID: 11400000, guid: 10a8fdc1d0e699e4aa91810b2017575b, type: 2}
   - {fileID: 11400000, guid: a20b9111188bd0b4cb16eddcdfe3f4d0, type: 2}
