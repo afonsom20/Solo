@@ -15,6 +15,11 @@ MonoBehaviour:
   Name: Knife
   MinimumLevel: 1
   ChanceToFind: 15
-  AmountMin: 1
-  AmountMax: 1
+  OnlyOneFoundPerExpedition: 1
+  LimitInventoryAmount: 1
+  MaxInventoryAmount: 1
+  AmountFoundMin: 1
+  AmountFoundMax: 1
   Icon: {fileID: 21300000, guid: e853876ffa3b7b248bac646c8a57c69a, type: 3}
+  ImprovesFighting: 1
+  TooltipDescription: Reduces damage taken in fights

@@ -8,27 +8,37 @@ public class Inventory : MonoBehaviour
 {
     [SerializeField] GameObject UIPrefab;
     [SerializeField] Transform itemHolder;
-    //[SerializeField] Loot DEBUG;
+    [SerializeField] int firstAidKitHealAmount = 30;
+    [SerializeField] int drugsHealAmount = 20;
 
     List<Loot> loot = new List<Loot>();
     List<int> amounts = new List<int>();
 
-    /*
-    private void Start()
-    {
-        AddLoot(DEBUG, 1);
-    }
-    */
     public void AddLoot(Loot lootFound, int amountFound)
     {
+        //Debug.Log(lootFound.Name);
+
         // Check every current inventory item
         for (int i = 0; i < loot.Count; i++)
         {
             // If the recently found loot is already present in the inventory
             if (lootFound.Name == loot[i].Name)
             {
-                // Increase the amount in the inventory
-                amounts[i] += amountFound;
+                // If this item has a limited amount in the inventory (e.g. 1 pistol, 3 wood)...
+                if (lootFound.LimitInventoryAmount)
+                {
+                    // ...then we check if the amount found + what we already have would be too much
+                    if (amounts[i] + amountFound >= lootFound.MaxInventoryAmount)                    
+                        // if so, we just set the amount to the maximum possible
+                        amounts[i] = lootFound.MaxInventoryAmount;
+                    // If it's below the limit, just add the amount normally
+                    else
+                        amounts[i] += amountFound;
+                }
+                // If there's not limit, just increase the amount in the inventory
+                else
+                    amounts[i] += amountFound;
+    
 
                 // Change the text to represent this change in amount
                 itemHolder.GetChild(i).GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = amounts[i].ToString();
@@ -54,13 +64,45 @@ public class Inventory : MonoBehaviour
         Image image = newItem.GetComponent<Image>(); 
         image.sprite = lootFound.Icon;
         newItem.transform.GetComponentInChildren<TextMeshProUGUI>().text = amountFound.ToString();
-        newItem.GetComponent<InventoryItem>().ItemName = lootFound.Name;
+        InventoryItem inventoryItem = newItem.GetComponent<InventoryItem>();
+        inventoryItem.ItemName = lootFound.Name;
+        inventoryItem.DescriptionText = lootFound.TooltipDescription;
+
         if (lootFound.Name == "First Aid Kit" || lootFound.Name == "Drugs")
         {
             image.color = Color.green;
-            newItem.GetComponent<InventoryItem>().ItemIsUsable = true;
+            inventoryItem.ItemIsUsable = true;
+        }
+        else if (lootFound.ImprovesFighting)
+        {
+            image.color = Color.cyan;
+        }
+    }
+
+
+    public bool CheckIfItemMaxAmountReached(Loot item, int amountFound)
+    {
+        bool maxAmountReached = false; //only doing it this way (making a variable instead of writing "return true/false") because it's giving me a weird error
+
+        for (int i = 0; i < loot.Count; i++)
+        {
+            if (item.Name == loot[i].Name)
+            {
+                // If this item has a limited amount in the inventory (e.g. 1 pistol, 3 wood)...
+                if (item.LimitInventoryAmount)
+                {
+                    // ...then we check if the amount found + what we already have would be too much
+                    if (amounts[i] == item.MaxInventoryAmount)
+                    {
+                        maxAmountReached = true;
+                    }
+                    else
+                        maxAmountReached = false;
+                }
+            }
         }
 
+        return maxAmountReached;
     }
 
     public void UseItem(string name)
@@ -80,7 +122,8 @@ public class Inventory : MonoBehaviour
 
                     // The player stops being sick
                     PlayerStatusManager.Instance.Sick = false;
-                    PlayerStatusManager.Instance.IncreaseHealth(20);
+                    PlayerStatusManager.Instance.ToggleSicknessIndicator();
+                    PlayerStatusManager.Instance.IncreaseHealth(drugsHealAmount);
                     InformationManager.Instance.SendInfo(0, "You take some medicine and quickly start to feel better");
                     AudioManager.Instance.Play("Drugs");
 
@@ -115,7 +158,8 @@ public class Inventory : MonoBehaviour
 
                     // The player stops being wounded
                     PlayerStatusManager.Instance.Wounded = false;
-                    PlayerStatusManager.Instance.IncreaseHealth(30);
+                    PlayerStatusManager.Instance.ToggleWoundIndicator();
+                    PlayerStatusManager.Instance.IncreaseHealth(firstAidKitHealAmount);
                     InformationManager.Instance.SendInfo(0, "You patched yourself up, stopping the bleeding");
                     AudioManager.Instance.Play("First Aid Kit");
 

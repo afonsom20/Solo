@@ -88,20 +88,6 @@ public class PlayerStatusManager : MonoBehaviour
         UpdateStatusMeters();
     }
 
-    void Update()
-    {
-        if (Sick)
-            sicknessIndicator.SetActive(true);
-        else
-            sicknessIndicator.SetActive(false);
-
-        if (Wounded)
-            woundIndicator.SetActive(true);
-        else
-            woundIndicator.SetActive(false);
-
-    }
-
     void UpdateStatusMeters()
     {
         healthSlider.value = Health;
@@ -111,8 +97,10 @@ public class PlayerStatusManager : MonoBehaviour
     }
 
     // Eating is done AUTOMATICALLY at the start of every day
-    public void Eat()
+    public IEnumerator Eat()
     {
+        yield return new WaitForSeconds(TimeManager.Instance.NightDayTransitionTime);
+
         // The player has enough food, so they eat it
         if (Food > foodEatenPerDay)
         {
@@ -190,6 +178,7 @@ public class PlayerStatusManager : MonoBehaviour
                 if (Random.Range(0, 100) <= (phasesSinceBecameSick * probabilityOfHealingSicknessPerPhase))
                 {
                     Sick = false;
+                    ToggleSicknessIndicator();
                     InformationManager.Instance.SendInfo(0, "Your body managed to overcome your dangerous illness.");
                 }             
                 
@@ -208,7 +197,7 @@ public class PlayerStatusManager : MonoBehaviour
         {
             // Decrease their health
             Health -= woundHealthDecrease;
-            Debug.Log("Take health from wound");
+
             // Check how many phases have passed since the player became sick
             if (phasesSinceBecameWounded > minimumWoundedPhases)
             {
@@ -217,6 +206,7 @@ public class PlayerStatusManager : MonoBehaviour
                 if (Random.Range(0, 100) <= (phasesSinceBecameWounded * probabilityOfHealingWoundPerPhase))
                 {
                     Wounded = false;
+                    ToggleWoundIndicator();
                     InformationManager.Instance.SendInfo(0, "Your body managed to heal your wounds");
                 }
 
@@ -229,6 +219,36 @@ public class PlayerStatusManager : MonoBehaviour
             phasesSinceBecameWounded = 0;
         }
 
+    }
+
+    public void ToggleSicknessIndicator()
+    {
+        if (Sick)
+            sicknessIndicator.SetActive(true);
+        else
+            sicknessIndicator.SetActive(false);
+    }
+
+    public void ToggleWoundIndicator()
+    {
+        if (Wounded)
+            woundIndicator.SetActive(true);
+        else
+            woundIndicator.SetActive(false);
+    }
+
+    public IEnumerator ToggleWoundIndicatorWithDelay()
+    {
+        //reversed, for some reason
+        if (TimeManager.Instance.CurrentPhase == TimeManager.DayPhase.Night)
+            yield return new WaitForSeconds(TimeManager.Instance.NightDayTransitionTime);
+        else
+            yield return new WaitForSeconds(TimeManager.Instance.DayNightTransitionTime);
+
+        if (Wounded)
+            woundIndicator.SetActive(true);
+        else
+            woundIndicator.SetActive(false);
     }
 
     public void CheckPlayerCondition()
@@ -253,6 +273,7 @@ public class PlayerStatusManager : MonoBehaviour
             if ((!Sick) && (Random.Range(0, 100) <= chanceOfSicknessOnLowHygiene))
             {
                 Sick = true;
+                ToggleSicknessIndicator();
                 InformationManager.Instance.SendInfo(2, "You became sick due to low Hygiene. Take some Drugs to heal");
                 AudioManager.Instance.Play("Cough");
             }

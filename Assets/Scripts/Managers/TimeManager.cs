@@ -11,6 +11,9 @@ public class TimeManager : MonoBehaviour
 
     public int DaysUntilRescue = 30;
 
+    [Header("Time Variables")] public float DayNightTransitionTime = 1.5f;
+    public float NightDayTransitionTime = 3.5f;
+
     [Header("Art")]
     [SerializeField] GameObject[] backgrounds;
 
@@ -22,6 +25,9 @@ public class TimeManager : MonoBehaviour
 
     [Space, Header("Volume & VFX")]
     [SerializeField] Volume volume;
+
+    [Space, Header("Merchant")]
+    [SerializeField] Merchant merchant;
 
     public enum DayPhase { Day, Night };
 
@@ -53,8 +59,7 @@ public class TimeManager : MonoBehaviour
             Day++;
 
             CurrentPhase = DayPhase.Day;
-
-            PlayerStatusManager.Instance.Eat();
+            StartCoroutine(PlayerStatusManager.Instance.Eat());
             DaysUntilRescue -= 1; 
             if (DaysUntilRescue == 0)            
                 winScreen.SetActive(true);            
@@ -74,9 +79,9 @@ public class TimeManager : MonoBehaviour
     {
         // Change into the night
         if (CurrentPhase == DayPhase.Night)
-            yield return new WaitForSeconds(1.5f);        
+            yield return new WaitForSeconds(DayNightTransitionTime);        
         else
-            yield return new WaitForSeconds(3.5f);
+            yield return new WaitForSeconds(NightDayTransitionTime);
 
         // Go into the day
         if (CurrentPhase == DayPhase.Day)
@@ -85,6 +90,8 @@ public class TimeManager : MonoBehaviour
             
             backgrounds[0].SetActive(true);
             backgrounds[1].SetActive(false);
+
+            merchant.NewDay();
         }
         // Go into the night
         else
@@ -98,6 +105,6 @@ public class TimeManager : MonoBehaviour
         }
 
         PlayerStatusManager.Instance.StatusDecreasePerPhase();
-        PlayerStatusManager.Instance.CheckPlayerCondition();        
+        PlayerStatusManager.Instance.CheckPlayerCondition();                
     }
 }

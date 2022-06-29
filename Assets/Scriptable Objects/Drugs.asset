@@ -15,7 +15,11 @@ MonoBehaviour:
   Name: Drugs
   MinimumLevel: 2
   ChanceToFind: 5
-  FixedAmount: 1
-  AmountMin: 1
-  AmountMax: 0
+  OnlyOneFoundPerExpedition: 1
+  LimitInventoryAmount: 0
+  MaxInventoryAmount: 1
+  AmountFoundMin: 1
+  AmountFoundMax: 5
   Icon: {fileID: 21300000, guid: 5aa2d6c9ca2806b42aee3d4f981e622d, type: 3}
+  ImprovesFighting: 0
+  TooltipDescription: 

@@ -62,9 +62,9 @@ public class InformationManager : MonoBehaviour
         // the DelayedChanges method present on the TimeManager
         // Here, this first part means the change into the DAY
         if (TimeManager.Instance.CurrentPhase == TimeManager.DayPhase.Night)
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(TimeManager.Instance.NightDayTransitionTime + 0.5f);
         else
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(TimeManager.Instance.DayNightTransitionTime);
 
         SendInfo(infoType, message);
     }

@@ -15,6 +15,11 @@ MonoBehaviour:
   Name: Wood
   MinimumLevel: 0
   ChanceToFind: 20
-  AmountMin: 2
-  AmountMax: 5
+  OnlyOneFoundPerExpedition: 1
+  LimitInventoryAmount: 1
+  MaxInventoryAmount: 3
+  AmountFoundMin: 1
+  AmountFoundMax: 5
   Icon: {fileID: 21300000, guid: a2f9824cf698d1d48b0588b306604729, type: 3}
+  ImprovesFighting: 0
+  TooltipDescription: Reduces chances of getting raided

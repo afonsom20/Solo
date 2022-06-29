@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 [CreateAssetMenu(menuName = "Loot Item")]
 public class Loot : ScriptableObject
@@ -12,11 +13,23 @@ public class Loot : ScriptableObject
 
     public int ChanceToFind = 30;
 
-    public bool FixedAmount = false;
+    public bool OnlyOneFoundPerExpedition = false;
 
-    public int AmountMin = 1;
+    public bool LimitInventoryAmount = false;
 
-    public int AmountMax = 5;
+    [ShowIf("LimitInventoryAmount")] 
+    public int MaxInventoryAmount = 1;
+
+
+    [HideIf("OnlyOneFoundPerExpedition")]
+    public int AmountFoundMin = 1;
+
+    [HideIf("OnlyOneFoundPerExpedition")]
+    public int AmountFoundMax = 5;
 
     public Sprite Icon;
+
+    public bool ImprovesFighting = false;
+    
+    public string TooltipDescription = "";
 }

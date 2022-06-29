@@ -135,3 +135,24 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
     group: {fileID: 24300002, guid: 30049a51ddaa2844097e01bd8a2ae1b4, type: 2}
+  - name: Door Knock
+    clip: {fileID: 8300000, guid: 44f9cdce8a8a73441aee4e6b6a8e3889, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+    group: {fileID: 24300002, guid: 30049a51ddaa2844097e01bd8a2ae1b4, type: 2}
+  - name: Open Door
+    clip: {fileID: 8300000, guid: c20c6d54227943e40a4599d919696299, type: 3}
+    volume: 0.8
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+    group: {fileID: 24300002, guid: 30049a51ddaa2844097e01bd8a2ae1b4, type: 2}
+  - name: Close Door
+    clip: {fileID: 8300000, guid: 580a80db1c3262f4dacc345010c64ac4, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+    group: {fileID: 24300002, guid: 30049a51ddaa2844097e01bd8a2ae1b4, type: 2}

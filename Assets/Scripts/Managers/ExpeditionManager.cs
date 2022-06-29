@@ -15,7 +15,7 @@ public class ExpeditionManager : MonoBehaviour
 
     [Space, Header("Variables")]
     [SerializeField] int hopeIncreaseBase = 5;
-    [SerializeField] int lootChanceIncreaseFactor = 4;
+    //[SerializeField] int lootChanceIncreaseFactor = 4;
     [SerializeField] int minimumWoundChance = 40;
     [SerializeField] int minimumFightHealthDecrease = 10;
     [SerializeField] int fightHealthDecreaseDeviation = 5;
@@ -64,9 +64,9 @@ public class ExpeditionManager : MonoBehaviour
     IEnumerator DelayedChanges()
     {
         if (TimeManager.Instance.CurrentPhase == TimeManager.DayPhase.Night)
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(TimeManager.Instance.DayNightTransitionTime);
         else
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(TimeManager.Instance.NightDayTransitionTime + 0.5f);
 
         int finalHopeIncrease = hopeIncreaseBase + lootLevel + danger;
         PlayerStatusManager.Instance.IncreaseHope(finalHopeIncrease);
@@ -76,26 +76,30 @@ public class ExpeditionManager : MonoBehaviour
     void GetLoot()
     {
         // Each expedition has “Danger” and “Loot Level” values associated to it. The higher these are, the higher the chance to find each loot item. 
-        int chanceIncreaseFactor = lootChanceIncreaseFactor * (lootLevel + danger);
+        //int chanceIncreaseFactor = lootChanceIncreaseFactor * (lootLevel + danger);
 
         // For every Loot possible...
         for (int i = 0; i < Loot.Length; i++)
         {
             // ... check if this loot can be found on this expedition's loot level
+            // If not, skip this item
             if (Loot[i].MinimumLevel > lootLevel)
-                return;
+                continue;
 
             // If so, "roll the dice" to see if it will be found on this expedition
             // Note that the an expedition with a higher loot and danger levels will increase the chances of finding that loot item
-            if (Loot[i].ChanceToFind + chanceIncreaseFactor >= Random.Range(0, 100))
-            {
+            if (Loot[i].ChanceToFind >= Random.Range(0, 100))
+            {                
                 // ... and, if so, add it to the player's inventory...
                 // ... but not before randomizing the amount of loot found, if the loot does not have FixedAmount = true
-                int lootAmount = Random.Range(Loot[i].AmountMin, Loot[i].AmountMax + lootLevel);
+                int lootAmount = Random.Range(Loot[i].AmountFoundMin, Loot[i].AmountFoundMax + lootLevel);
                 
                 // However, if the loot has a fix amount found (e.g. only 1 First Aid Kit can be found per expedition), change the value
-                if (Loot[i].FixedAmount)
+                if (Loot[i].OnlyOneFoundPerExpedition)
                     lootAmount = 1;
+
+                if (inventory.CheckIfItemMaxAmountReached(Loot[i], lootAmount))               
+                    return;                
 
                 inventory.AddLoot(Loot[i], lootAmount);
 
@@ -132,6 +136,7 @@ public class ExpeditionManager : MonoBehaviour
             if (Random.Range(0, 100) <= woundChance)
             {
                 PlayerStatusManager.Instance.Wounded = true;
+                StartCoroutine(PlayerStatusManager.Instance.ToggleWoundIndicatorWithDelay());
                 StartCoroutine(InformationManager.Instance.SendDelayedInfo(3, "You got wounded in a fight. Treat it with a First Aid Kit"));
             }
         }
