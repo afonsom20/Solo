@@ -80,7 +80,7 @@ public class Inventory : MonoBehaviour
     }
 
 
-    public bool CheckIfItemMaxAmountReached(Loot item, int amountFound)
+    public bool CheckIfItemMaxAmountReached(Loot item)
     {
         bool maxAmountReached = false; //only doing it this way (making a variable instead of writing "return true/false") because it's giving me a weird error
 
@@ -91,7 +91,7 @@ public class Inventory : MonoBehaviour
                 // If this item has a limited amount in the inventory (e.g. 1 pistol, 3 wood)...
                 if (item.LimitInventoryAmount)
                 {
-                    // ...then we check if the amount found + what we already have would be too much
+                    // ...then we check if the amount we already is at the maximum
                     if (amounts[i] == item.MaxInventoryAmount)
                     {
                         maxAmountReached = true;
@@ -180,5 +180,24 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
+    }
+
+    public bool CheckIfHasUniqueItemAlready(string name)
+    {
+        // Find the item in the inventory
+        Loot item = loot.Find(item => item.Name == name);
+
+        // If the item is present in the inventory
+        if (item != null)
+        {
+            // Check if it's a unique item
+            if (item.LimitInventoryAmount && item.MaxInventoryAmount == 1)
+                return true;
+            else
+                return false;
+        }        
+        else
+            return false;
+       
     }
 }

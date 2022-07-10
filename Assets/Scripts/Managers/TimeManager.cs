@@ -26,9 +26,6 @@ public class TimeManager : MonoBehaviour
     [Space, Header("Volume & VFX")]
     [SerializeField] Volume volume;
 
-    [Space, Header("Merchant")]
-    [SerializeField] Merchant merchant;
-
     public enum DayPhase { Day, Night };
 
     [HideInInspector] public int Day = 1;
@@ -72,6 +69,7 @@ public class TimeManager : MonoBehaviour
             StartCoroutine(DelayedChanges());
         }
 
+        Merchant.Instance.Reset();
         CanvasManager.Instance.HideAllBoards();
     }
 
@@ -91,7 +89,7 @@ public class TimeManager : MonoBehaviour
             backgrounds[0].SetActive(true);
             backgrounds[1].SetActive(false);
 
-            merchant.NewDay();
+            Merchant.Instance.NewDay();
         }
         // Go into the night
         else

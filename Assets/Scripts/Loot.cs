@@ -20,12 +20,13 @@ public class Loot : ScriptableObject
     [ShowIf("LimitInventoryAmount")] 
     public int MaxInventoryAmount = 1;
 
-
     [HideIf("OnlyOneFoundPerExpedition")]
     public int AmountFoundMin = 1;
 
     [HideIf("OnlyOneFoundPerExpedition")]
     public int AmountFoundMax = 5;
+
+    public int MerchantPrice = 3;
 
     public Sprite Icon;
 

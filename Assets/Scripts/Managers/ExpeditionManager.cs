@@ -92,13 +92,13 @@ public class ExpeditionManager : MonoBehaviour
             {                
                 // ... and, if so, add it to the player's inventory...
                 // ... but not before randomizing the amount of loot found, if the loot does not have FixedAmount = true
-                int lootAmount = Random.Range(Loot[i].AmountFoundMin, Loot[i].AmountFoundMax + lootLevel);
+                int lootAmount = Random.Range(Loot[i].AmountFoundMin, Loot[i].AmountFoundMax + 1 + lootLevel); // +1 because Random.Range is (minInclusive, maxExclusive)
                 
                 // However, if the loot has a fix amount found (e.g. only 1 First Aid Kit can be found per expedition), change the value
                 if (Loot[i].OnlyOneFoundPerExpedition)
                     lootAmount = 1;
 
-                if (inventory.CheckIfItemMaxAmountReached(Loot[i], lootAmount))               
+                if (inventory.CheckIfItemMaxAmountReached(Loot[i]))               
                     return;                
 
                 inventory.AddLoot(Loot[i], lootAmount);

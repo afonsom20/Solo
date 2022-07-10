@@ -143,7 +143,12 @@ public class PlayerStatusManager : MonoBehaviour
     public void FindFood(int amount)
     {
         Food += amount;
+        StartCoroutine(DelayedFoodUIUpdate());
+    }
 
+    IEnumerator DelayedFoodUIUpdate()
+    {
+        yield return new WaitForSeconds(2f);
         // Update UI
         foodText.text = Food.ToString();
         UpdateStatusMeters();
@@ -373,6 +378,38 @@ public class PlayerStatusManager : MonoBehaviour
         if (Health >= maxHealth)
             Health = maxHealth;
 
+        UpdateStatusMeters();
+    }
+
+    public void PayMerchant(int price)
+    {
+        Food -= price;
+
+        // The player has enough food to feed themselves for one day
+        if (Food > foodEatenPerDay)
+        {
+            if (Food <= 2 * foodEatenPerDay)
+            {
+                InformationManager.Instance.SendInfo(6, "You're running low on Food!");
+                foodText.color = Color.yellow;
+            }
+            else
+                foodText.color = Color.white;
+        }
+        // If the player does not have enough food to feed themselves for one day
+        else if (Food == 0)
+        {
+            foodText.color = Color.red;
+            InformationManager.Instance.SendInfo(1, "You're out of Food!");                       
+        }
+        else
+        {
+            InformationManager.Instance.SendInfo(6, "You're running low on Food!");
+            foodText.color = Color.yellow;
+        }
+
+        // Update UI
+        foodText.text = Food.ToString();
         UpdateStatusMeters();
     }
 }
