@@ -96,6 +96,32 @@ public class PlayerStatusManager : MonoBehaviour
         hopeSlider.value = Hope;
     }
 
+    void CheckFoodAmount()
+    {
+        // The player has enough food to feed themselves for one day
+        if (Food > foodEatenPerDay)
+        {
+            if (Food <= 2 * foodEatenPerDay)
+            {
+                InformationManager.Instance.SendInfo(6, "You're running low on Food!");
+                foodText.color = Color.yellow;
+            }
+            else
+                foodText.color = Color.white;
+        }
+        // If the player does not have enough food to feed themselves for one day
+        else if (Food == 0)
+        {
+            foodText.color = Color.red;
+            InformationManager.Instance.SendInfo(1, "You're out of Food!");
+        }
+        else
+        {
+            InformationManager.Instance.SendInfo(6, "You're running low on Food!");
+            foodText.color = Color.yellow;
+        }
+    }
+
     // Eating is done AUTOMATICALLY at the start of every day
     public IEnumerator Eat()
     {
@@ -148,8 +174,13 @@ public class PlayerStatusManager : MonoBehaviour
 
     IEnumerator DelayedFoodUIUpdate()
     {
-        yield return new WaitForSeconds(2f);
+        if (TimeManager.Instance.CurrentPhase == TimeManager.DayPhase.Night)
+            yield return new WaitForSeconds(TimeManager.Instance.NightDayTransitionTime);
+        else
+            yield return new WaitForSeconds(TimeManager.Instance.DayNightTransitionTime);
+
         // Update UI
+        CheckFoodAmount();
         foodText.text = Food.ToString();
         UpdateStatusMeters();
     }
@@ -385,28 +416,7 @@ public class PlayerStatusManager : MonoBehaviour
     {
         Food -= price;
 
-        // The player has enough food to feed themselves for one day
-        if (Food > foodEatenPerDay)
-        {
-            if (Food <= 2 * foodEatenPerDay)
-            {
-                InformationManager.Instance.SendInfo(6, "You're running low on Food!");
-                foodText.color = Color.yellow;
-            }
-            else
-                foodText.color = Color.white;
-        }
-        // If the player does not have enough food to feed themselves for one day
-        else if (Food == 0)
-        {
-            foodText.color = Color.red;
-            InformationManager.Instance.SendInfo(1, "You're out of Food!");                       
-        }
-        else
-        {
-            InformationManager.Instance.SendInfo(6, "You're running low on Food!");
-            foodText.color = Color.yellow;
-        }
+        CheckFoodAmount();
 
         // Update UI
         foodText.text = Food.ToString();

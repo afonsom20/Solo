@@ -76,7 +76,7 @@ public class ExpeditionManager : MonoBehaviour
     void GetLoot()
     {
         // Each expedition has “Danger” and “Loot Level” values associated to it. The higher these are, the higher the chance to find each loot item. 
-        //int chanceIncreaseFactor = lootChanceIncreaseFactor * (lootLevel + danger);
+        //int chanceIncreaseFactor = lootChanceIncreaseFactor * lootLevel;
 
         // For every Loot possible...
         for (int i = 0; i < Loot.Length; i++)

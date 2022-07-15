@@ -1114,8 +1114,8 @@ MonoBehaviour:
   graphics: {fileID: 988508513}
   inventoryHolder: {fileID: 1255855249}
   doorInteractable: {fileID: 1559535897}
-  minimumDaysUntilVisit: 1
-  maximumDaysUntilVisit: 1
+  minimumDaysUntilVisit: 7
+  maximumDaysUntilVisit: 12
   dialogueBox: {fileID: 75910805}
   typingSpeed: 0.02
   firstGreeting: Hey mate, I'm glad to know there's someone still alive here. Name's
@@ -1607,13 +1607,13 @@ MonoBehaviour:
     Description: There should still be a few supplies inside the building. I probably
       won't find much, but I shouldn't expect much danger either.
     Danger: 0
-    LootLevel: 1
+    LootLevel: 0
     FightEncounterChance: 0
   - Name: Explore the lower floors
     Description: Some thugs have been roaming around the lower floors lately. There
       might be some good stuff down there, but I should try to avoid any confrontation.
     Danger: 1
-    LootLevel: 2
+    LootLevel: 1
     FightEncounterChance: 20
   - Name: Explore the neighbourhood
     Description: Altough the streets are still irradiated, I can take my gas mask
@@ -3702,10 +3702,10 @@ RectTransform:
   m_Father: {fileID: 617820247}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &556860147
 GameObject:
@@ -4194,6 +4194,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 663e61e8928222448b612ac63bfa5260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manualBorders: 0
+  topLeft: {x: 0, y: 0}
+  bottomRight: {x: 0, y: 0}
+  borderResolution: {x: 0, y: 0}
 --- !u!82 &561304163
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5691,6 +5695,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tooltip
       objectReference: {fileID: 0}
+    - target: {fileID: 4923730459618860673, guid: 9f297ec9a8ef00641ad698c410e431c9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6265358913962605340, guid: 9f297ec9a8ef00641ad698c410e431c9, type: 3}
       propertyPath: m_Pivot.x
       value: 0.9
@@ -6842,7 +6850,7 @@ GameObject:
   - component: {fileID: 1052024139}
   - component: {fileID: 1052024138}
   m_Layer: 5
-  m_Name: No Loot (0)
+  m_Name: Little Loot (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8530,6 +8538,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 663e61e8928222448b612ac63bfa5260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manualBorders: 0
+  topLeft: {x: 0, y: 0}
+  bottomRight: {x: 0, y: 0}
+  borderResolution: {x: 0, y: 0}
 --- !u!82 &1347679481
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9568,7 +9580,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: No Loot
+  m_text: Scarse Loot
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 811a1dfe1b798ea4997f56c4750d0b4e, type: 2}
   m_sharedMaterial: {fileID: -5274013393095227134, guid: 811a1dfe1b798ea4997f56c4750d0b4e, type: 2}
@@ -10120,6 +10132,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 663e61e8928222448b612ac63bfa5260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manualBorders: 0
+  topLeft: {x: 0, y: 0}
+  bottomRight: {x: 0, y: 0}
+  borderResolution: {x: 0, y: 0}
 --- !u!82 &1538897492
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10229,7 +10245,6 @@ GameObject:
   - component: {fileID: 1559535903}
   - component: {fileID: 1559535902}
   - component: {fileID: 1559535901}
-  - component: {fileID: 1559535900}
   - component: {fileID: 1559535899}
   m_Layer: 5
   m_Name: Merchant
@@ -10254,8 +10269,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -9, y: -19}
-  m_SizeDelta: {x: 164.8905, y: 294.9839}
+  m_AnchoredPosition: {x: -10.163, y: -15.5111}
+  m_SizeDelta: {x: 162.5646, y: 283.3542}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!82 &1559535899
 AudioSource:
@@ -10353,63 +10368,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1559535900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1559535897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1559535901}
-          m_TargetAssemblyTypeName: OutlineToggler, Assembly-CSharp
-          m_MethodName: ToggleOutline
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 1559535899}
-          m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1559535901}
-          m_TargetAssemblyTypeName: OutlineToggler, Assembly-CSharp
-          m_MethodName: ToggleOutline
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &1559535901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10422,6 +10380,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 663e61e8928222448b612ac63bfa5260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manualBorders: 1
+  topLeft: {x: 1700, y: 1322}
+  bottomRight: {x: 2039, y: 775}
+  borderResolution: {x: 3840, y: 2160}
 --- !u!114 &1559535902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10490,7 +10452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 75b5dfa5143b36f43a4f8f5fb0b97ca5, type: 2}
+  m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -10500,7 +10462,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 431e3ff17c626124eab738c870270381, type: 3}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -10624,7 +10586,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8048d0f9edda3394fbec2b5627e94b57, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 84737cfe3c55a894eb83024a19c5f2ff, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11945,7 +11907,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d7bd2b559a579d74a857b0fa6427149b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 83bbea3c893fd0b41861656d85efb4fb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13418,6 +13380,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 663e61e8928222448b612ac63bfa5260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manualBorders: 0
+  topLeft: {x: 0, y: 0}
+  bottomRight: {x: 0, y: 0}
+  borderResolution: {x: 0, y: 0}
 --- !u!82 &2008293900
 AudioSource:
   m_ObjectHideFlags: 0
