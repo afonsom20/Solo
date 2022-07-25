@@ -39,12 +39,13 @@ public class InformationManager : MonoBehaviour
         GameObject newInfo = Instantiate(infoPrefab, infoHolder);
 
         // Set the correct panel
-        newInfo.GetComponent<Image>().sprite = panels[infoType];
+        //newInfo.GetComponent<Image>().sprite = panels[infoType];
 
-        // Set the correct icon and icon color
+        // Set the correct icon and icon color; as well as the panel color
         Image icon = newInfo.transform.GetChild(0).gameObject.GetComponent<Image>();
         icon.sprite = icons[infoType];
         icon.color = iconColors[infoType];
+        newInfo.GetComponent<Image>().color = iconColors[infoType];
 
         // Set the correct message
         newInfo.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = message;

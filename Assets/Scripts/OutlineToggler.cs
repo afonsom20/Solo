@@ -11,6 +11,7 @@ public class OutlineToggler : MonoBehaviour
     [ShowIf("manualBorders"), SerializeField] Vector2 bottomRight;
     [ShowIf("manualBorders"), SerializeField] Vector2 borderResolution;
 
+    Button button;
     Image image;
     bool insideBorder = false;
     AudioSource audioSource;
@@ -20,7 +21,10 @@ public class OutlineToggler : MonoBehaviour
         image = GetComponent<Image>();
 
         if (manualBorders)
+        {
             audioSource = GetComponent<AudioSource>();
+            button = GetComponent<Button>();
+        }
     }
 
     void Update()
@@ -50,8 +54,16 @@ public class OutlineToggler : MonoBehaviour
                     ToggleOutline();
                     insideBorder = false;
                 }
+                // If not, it's still inside the borders, so check if the player clicked the mouse to activate the function
+                else
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        button.onClick.Invoke();
+                    }
+                }
             }
-        }    
+        }
     }
 
     public void ToggleOutline()
