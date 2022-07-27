@@ -11,13 +11,13 @@ public class TimeManager : MonoBehaviour
 
     public int DaysUntilRescue = 30;
 
-    [Header("Time Variables")] public float DayNightTransitionTime = 1.5f;
+    [Space, Header("Time Variables")] public float DayNightTransitionTime = 1.5f;
     public float NightDayTransitionTime = 3.5f;
 
-    [Header("Art")]
+    [Space, Header("Art")]
     [SerializeField] GameObject[] backgrounds;
 
-    [Header("UI")]
+    [Space, Header("UI")]
     [SerializeField] Animator blackScreen;
     [SerializeField] TextMeshProUGUI dayText;
     //[SerializeField] GameObject darkPanel;
@@ -84,22 +84,17 @@ public class TimeManager : MonoBehaviour
         // Go into the day
         if (CurrentPhase == DayPhase.Day)
         {
-            //darkPanel.SetActive(false);
-            
             backgrounds[0].SetActive(true);
             backgrounds[1].SetActive(false);
 
             Merchant.Instance.NewDay();
+            RaidManager.Instance.NightToDayTransition();
         }
-        // Go into the night
+        // Go into the evening
         else
         {
-            //darkPanel.SetActive(true);
-
             backgrounds[0].SetActive(false);
             backgrounds[1].SetActive(true);
-
-            //ChangeVolume(true);
         }
 
         PlayerStatusManager.Instance.StatusDecreasePerPhase();

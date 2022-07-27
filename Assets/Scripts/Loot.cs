@@ -31,6 +31,9 @@ public class Loot : ScriptableObject
     public Sprite Icon;
 
     public bool ImprovesFighting = false;
+
+    [ShowIf("ImprovesFighting")]
+    public bool IsGun = false;
     
     public string TooltipDescription = "";
 }

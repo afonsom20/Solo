@@ -36,6 +36,7 @@ public class ExpeditionManager : MonoBehaviour
         fightChance = Expeditions[index].FightEncounterChance;
 
         AudioManager.Instance.Play("Expedition");
+        RaidManager.Instance.UpdateVariables(false, false);
 
         // Reset the expedition board
         foreach (Transform child in expeditionRecapTextHolder)

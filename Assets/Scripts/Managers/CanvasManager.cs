@@ -10,6 +10,7 @@ public class CanvasManager : MonoBehaviour
     [SerializeField] GameObject inventoryBoard;
     [SerializeField] GameObject activitiesBoard;
     [SerializeField] GameObject expeditionRecapBoard;
+    [SerializeField] GameObject raidRecapBoard;
 
     void Awake()
     {
@@ -34,6 +35,13 @@ public class CanvasManager : MonoBehaviour
         AudioManager.Instance.Play("CheckBoard");
     }
 
+    public void DisableRaidRecapBoard()
+    {
+        raidRecapBoard.SetActive(false);
+
+        AudioManager.Instance.Play("CheckBoard");
+    }
+
     public void Retry()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -55,5 +63,6 @@ public class CanvasManager : MonoBehaviour
         activitiesBoard.SetActive(false);
         if (ActivityBoard.Instance != null)
             ActivityBoard.Instance.CloseActivityBoard();
+        raidRecapBoard.SetActive(false);
     }
 }

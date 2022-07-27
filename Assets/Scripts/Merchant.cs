@@ -16,6 +16,7 @@ public class Merchant : MonoBehaviour
 
     [Space, Header("Dialogue")]
     [SerializeField] TextMeshProUGUI dialogueBox;
+    [SerializeField] GameObject choiceButtons;
     [SerializeField] float typingSpeed = 0.02f;
     [SerializeField] string firstGreeting;
     [SerializeField] string generalGreeting;
@@ -92,6 +93,8 @@ public class Merchant : MonoBehaviour
 
     public void Leave()
     {
+        choiceButtons.SetActive(false);
+
         if (!alreadyBoughtSomething)
             Speak(rejectedDialogue, true);    
         else
@@ -112,6 +115,7 @@ public class Merchant : MonoBehaviour
             Speak(goodbyeDialogue, true);
 
         InformationManager.Instance.SendInfo(0, "You have purcheased an item");
+        AudioManager.Instance.Play("BuyFromMerchant");
         alreadyBoughtSomething = true;
     }
 
@@ -193,6 +197,7 @@ public class Merchant : MonoBehaviour
     {
         doorInteractable.SetActive(false);
         inventoryHolder.SetActive(false);
+        choiceButtons.SetActive(true);
 
         // Discard items that were not bought 
         for (int i = 0; i < merchantItemHolder.childCount; i++)

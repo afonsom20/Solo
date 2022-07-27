@@ -156,3 +156,38 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
     group: {fileID: 24300002, guid: 30049a51ddaa2844097e01bd8a2ae1b4, type: 2}
+  - name: Keep Watch
+    clip: {fileID: 8300000, guid: ad36ba4ba03fdfc48b6cb7793c311d44, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+    group: {fileID: 24300002, guid: 30049a51ddaa2844097e01bd8a2ae1b4, type: 2}
+  - name: Wood Log
+    clip: {fileID: 8300000, guid: 1e535ebe363dfca4e8a7b224619ca303, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+    group: {fileID: 24300002, guid: 30049a51ddaa2844097e01bd8a2ae1b4, type: 2}
+  - name: Gunfight
+    clip: {fileID: 8300000, guid: 564e6bb7aea81044cae6d1869e2f0d72, type: 3}
+    volume: 0.4
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+    group: {fileID: 24300002, guid: 30049a51ddaa2844097e01bd8a2ae1b4, type: 2}
+  - name: Surrender
+    clip: {fileID: 8300000, guid: 4bf5ecfa93ef69b47933637f588e7643, type: 3}
+    volume: 0.4
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+    group: {fileID: 24300002, guid: 30049a51ddaa2844097e01bd8a2ae1b4, type: 2}
+  - name: BuyFromMerchant
+    clip: {fileID: 8300000, guid: ea943d3e91e990c418bc33d3b633d5a5, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+    group: {fileID: 24300002, guid: 30049a51ddaa2844097e01bd8a2ae1b4, type: 2}

@@ -34,6 +34,8 @@ public class PlayerStatusManager : MonoBehaviour
     [SerializeField] int restEffectOnEnergy = 50;
     [SerializeField] int hygienizeEffectOnHygiene = 44;
     [SerializeField] int hygienizeEffectOnHope = 15;
+    [SerializeField] int hopeLossFromKeepingWatch = 5;
+    [SerializeField] int energyLossFromKeepingWatch = 20;
 
     [Space, Header("Daily Status Decrease")]
     [SerializeField] int energyDecreasePerPhase = 15;
@@ -88,7 +90,7 @@ public class PlayerStatusManager : MonoBehaviour
         UpdateStatusMeters();
     }
 
-    void UpdateStatusMeters()
+    public void UpdateStatusMeters()
     {
         healthSlider.value = Health;
         energySlider.value = Energy;
@@ -170,6 +172,19 @@ public class PlayerStatusManager : MonoBehaviour
     {
         Food += amount;
         StartCoroutine(DelayedFoodUIUpdate());
+    }
+
+    public void FoodStolen(int amount)
+    {
+        Food -= amount;
+
+        if (Food < 0)
+            Food = 0;
+
+        // Update UI
+        CheckFoodAmount();
+        foodText.text = Food.ToString();
+        UpdateStatusMeters();
     }
 
     IEnumerator DelayedFoodUIUpdate()
@@ -362,6 +377,7 @@ public class PlayerStatusManager : MonoBehaviour
 
         UpdateStatusMeters();
 
+        RaidManager.Instance.UpdateVariables(true, true);
         TimeManager.Instance.AdvancePhase();
 
         AudioManager.Instance.Play("Rest");
@@ -385,10 +401,20 @@ public class PlayerStatusManager : MonoBehaviour
 
             UpdateStatusMeters();
 
+            RaidManager.Instance.UpdateVariables(true, false);
             TimeManager.Instance.AdvancePhase();
 
             AudioManager.Instance.Play("Hygienize");
         }
+    }
+
+    public void KeepWatch()
+    {
+        IncreaseHope(-hopeLossFromKeepingWatch);
+        LoseEnergy(energyLossFromKeepingWatch);
+        RaidManager.Instance.UpdateVariables(true, false);
+        AudioManager.Instance.Play("Keep Watch");
+        TimeManager.Instance.AdvancePhase();
     }
 
     // This function is called in external scripts every time an action that increases hope is performed
@@ -420,6 +446,16 @@ public class PlayerStatusManager : MonoBehaviour
 
         // Update UI
         foodText.text = Food.ToString();
+        UpdateStatusMeters();
+    }
+
+    void LoseEnergy(int amount)
+    {
+        Energy -= amount;
+
+        if (Energy < 0)
+            Energy = 0;
+
         UpdateStatusMeters();
     }
 }
