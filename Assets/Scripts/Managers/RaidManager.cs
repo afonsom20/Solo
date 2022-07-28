@@ -37,7 +37,6 @@ public class RaidManager : MonoBehaviour
     [SerializeField] Animator raidUIAnimator;
 
     float playerDefenceLevel = 0f;
-    float realDefenceLevel = 0f;
     bool hasBulletproofVest = false;
     bool hasGun = false;
     bool hasKnife = false;
@@ -64,8 +63,8 @@ public class RaidManager : MonoBehaviour
             else if (Sleeping) // if they were home but were sleeping, fighting is mandatory          
                 Fight();
 
-            raidRecapBoard.SetActive(true);
             DetermineStolenItems();
+            raidRecapBoard.SetActive(true);
         }
     }
 
@@ -73,20 +72,21 @@ public class RaidManager : MonoBehaviour
     {       
         AudioManager.Instance.Play("Gunfight");
 
-        realDefenceLevel = playerDefenceLevel;
-
-        if (Sleeping)
-            realDefenceLevel = playerDefenceLevel / 2f;
-
         // Calculate factors for decreasing the player's Health
         float deviationFactor = Random.Range(0f, 2f) * 2f - 1f; // returns a value between -1 and 1
-        float damage = (baseFightHealthDecrease * raidDanger - playerDefenceWeight * realDefenceLevel) + (deviationFactor * fightHealthDecreaseDeviation);
+        float damage = (baseFightHealthDecrease * raidDanger - playerDefenceWeight * playerDefenceLevel) + (deviationFactor * fightHealthDecreaseDeviation);
 
         if (hasBulletproofVest)
             damage *= (bulletproofVestProtectionPercentage / 100f);
 
         if (damage < 0)
             damage = 0;
+
+        // Use ammo in the fight, if the player has a gun and ammo
+        if (hasGun && ammoAmount > 0)
+        {
+            inventory.UseItem("Ammunition");
+        }
 
         // If this fight would kill the player, just lower their health to 5
         if (PlayerStatusManager.Instance.Health - damage <= 0)
@@ -103,7 +103,7 @@ public class RaidManager : MonoBehaviour
         // Check if the player got wounded during the fight
         if (!PlayerStatusManager.Instance.Wounded)
         {
-            float woundChance = (baseWoundChance - playerDefenceWeight * realDefenceLevel);
+            float woundChance = (baseWoundChance - playerDefenceWeight * playerDefenceLevel);
             
             if (hasBulletproofVest)
                 woundChance *= (bulletproofVestProtectionPercentage / 100f);           
@@ -116,9 +116,15 @@ public class RaidManager : MonoBehaviour
             }
         }
 
+        if (hasGun)
+            Debug.Log("has gun");
+
         // Items used in fight
-        if (hasGun && ammoAmount > 0)        
+        if (hasGun && ammoAmount > 0)
+        {
+            Debug.Log("has loaded gun");
             raidRecapItemsUsedInFight.text += "- Pistol";
+        }
         if (hasKnife)
             raidRecapItemsUsedInFight.text += "\n- Knife";
         if (hasBulletproofVest)
@@ -165,12 +171,12 @@ public class RaidManager : MonoBehaviour
         {
             if (playerDefenceLevel - raidDanger > 0.5f)
             {
-                Debug.Log("Player strong enough to deter raid");
+                //Debug.Log("Player strong enough to deter raid");
                 return;
             }
         }
 
-        int numberOfItemsToSteal = raidDanger;       
+        int numberOfItemsToSteal = raidDanger - Mathf.RoundToInt(playerDefenceLevel);       
         int foodStolen = Random.Range(1, 1 + 3 * raidDanger);
 
         if (fought)
@@ -184,9 +190,11 @@ public class RaidManager : MonoBehaviour
 
         //Debug.Log("no. of items to steal = " + numberOfItemsToSteal);
 
-        PlayerStatusManager.Instance.FoodStolen(foodStolen);
-
-        raidRecapStolenItems.text += "- " + foodStolen.ToString() + " Food";
+        if (foodStolen > 0)
+        {
+            PlayerStatusManager.Instance.FoodStolen(foodStolen);
+            raidRecapStolenItems.text += "- " + foodStolen.ToString() + " Food";
+        }
 
         if (numberOfItemsToSteal > 0)
         {
@@ -255,6 +263,7 @@ public class RaidManager : MonoBehaviour
             if (inventory.Loot[i].Name == "Ammunition")
             {
                 ammoAmount = inventory.Amounts[i];
+                break;
             }
             else
             {
@@ -265,18 +274,22 @@ public class RaidManager : MonoBehaviour
         // Check weapons and vest
         for (int i = 0; i < inventory.Loot.Count; i++)
         {
+            //Debug.Log("Check inventory for guns and vest");
             // Search for weapons and vest in the inventory
             if (inventory.Loot[i].ImprovesFighting)
             {
+                //Debug.Log("Has gun or knife or vest");
                 // Check if the weapon is a gun
                 if (inventory.Loot[i].IsGun)
                 {
+                    //Debug.Log("Has gun");
                     hasGun = true;
                     // If so, check if there's ammo
                     if (ammoAmount > 0)
                     {                        
                         // If there is, then the player's defence is dramatically increased, especially with more ammo
                         playerDefenceLevel += 2f + Mathf.Log10(ammoAmount);
+                        //Debug.Log("increase defence level from gun and ammo");
                     }
                 }
                 // If it's a knife, the defence only slightly increases
@@ -297,6 +310,13 @@ public class RaidManager : MonoBehaviour
             {
                 blockDoorButton.interactable = true;
             }
+        }
+
+
+        // If the player is sleeping, then their defence level is actually half of if they were on watch
+        if (Sleeping)
+        {
+            playerDefenceLevel /= 2f;
         }
 
         // Chance UI to reflect the player's preparation

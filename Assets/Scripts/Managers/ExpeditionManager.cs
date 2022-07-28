@@ -43,7 +43,7 @@ public class ExpeditionManager : MonoBehaviour
             Destroy(child.gameObject);
         
 
-        GetLoot();
+        StartCoroutine(GetLoot());
 
         if (Random.Range(0, 100) <= fightChance)
         {
@@ -74,8 +74,12 @@ public class ExpeditionManager : MonoBehaviour
         CanvasManager.Instance.ToggleExpeditionRecapBoard();
     }
 
-    void GetLoot()
+    IEnumerator GetLoot()
     {
+        // Change into the night
+        if (TimeManager.Instance.CurrentPhase == TimeManager.DayPhase.Night)
+            yield return new WaitForSeconds(0.1f + TimeManager.Instance.NightDayTransitionTime);
+
         // Each expedition has “Danger” and “Loot Level” values associated to it. The higher these are, the higher the chance to find each loot item. 
         //int chanceIncreaseFactor = lootChanceIncreaseFactor * lootLevel;
 
@@ -99,8 +103,9 @@ public class ExpeditionManager : MonoBehaviour
                 if (Loot[i].OnlyOneFoundPerExpedition)
                     lootAmount = 1;
 
-                if (inventory.CheckIfItemMaxAmountReached(Loot[i]))               
-                    return;                
+                if (inventory.CheckIfItemMaxAmountReached(Loot[i]))
+                    yield break;                
+                          
 
                 inventory.AddLoot(Loot[i], lootAmount);
 

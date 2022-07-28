@@ -76,6 +76,7 @@ public class Merchant : MonoBehaviour
     public void OpenDoor()
     {
         doorInteractable.SetActive(false);
+        choiceButtons.SetActive(true);
         graphics.SetActive(true);
         doorInteractable.GetComponent<OutlineToggler>().ToggleOutline(); // if we don't do this, next time the outline will be on when the mouse is not on top of the door, which is wrong
         RandomizeItems();
@@ -197,7 +198,6 @@ public class Merchant : MonoBehaviour
     {
         doorInteractable.SetActive(false);
         inventoryHolder.SetActive(false);
-        choiceButtons.SetActive(true);
 
         // Discard items that were not bought 
         for (int i = 0; i < merchantItemHolder.childCount; i++)

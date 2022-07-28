@@ -259,6 +259,7 @@ public class PlayerStatusManager : MonoBehaviour
                     Wounded = false;
                     ToggleWoundIndicator();
                     InformationManager.Instance.SendInfo(0, "Your body managed to heal your wounds");
+                    IncreaseHealth(10);
                 }
 
             }

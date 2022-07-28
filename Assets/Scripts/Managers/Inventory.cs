@@ -92,7 +92,7 @@ public class Inventory : MonoBehaviour
                 if (item.LimitInventoryAmount)
                 {
                     // ...then we check if the amount we already is at the maximum
-                    if (Amounts[i] == item.MaxInventoryAmount)
+                    if (Amounts[i] >= item.MaxInventoryAmount)
                     {
                         maxAmountReached = true;
                     }
@@ -106,7 +106,7 @@ public class Inventory : MonoBehaviour
     }
 
     public void UseItem(string name)
-    {        
+    {
         // Check if the item clicked was Drugs, and also if the player is Sick
         if ((name == "Drugs") && (PlayerStatusManager.Instance.Sick))
         {
@@ -137,6 +137,7 @@ public class Inventory : MonoBehaviour
                     else
                     {
                         Loot.Remove(Loot[i]);
+                        Amounts.Remove(Amounts[i]);
                         Destroy(itemHolder.GetChild(i).gameObject);
                     }
 
@@ -174,6 +175,7 @@ public class Inventory : MonoBehaviour
                     {
                         Destroy(itemHolder.GetChild(i).gameObject);
                         Loot.Remove(Loot[i]);
+                        Amounts.Remove(Amounts[i]);
                     }
 
                 }
@@ -200,6 +202,32 @@ public class Inventory : MonoBehaviour
                     {
                         Destroy(itemHolder.GetChild(i).gameObject);
                         Loot.Remove(Loot[i]);
+                        Amounts.Remove(Amounts[i]);
+                    }
+                }
+            }
+        }
+        else if (name == "Ammunition")
+        {
+            for (int i = 0; i < Loot.Count; i++)
+            {
+                if (Loot[i].Name == "Ammunition")
+                {
+                    int ammoUsed = Random.Range(2, 11);
+                    Amounts[i] -= ammoUsed;
+
+                    // If there are still Wood logs
+                    if (Amounts[i] > 0)
+                    {
+                        // Change the text to represent this change in amount
+                        itemHolder.GetChild(i).GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = Amounts[i].ToString();
+                    }
+                    // If not, remove them from the inventory
+                    else
+                    {
+                        Destroy(itemHolder.GetChild(i).gameObject);
+                        Loot.Remove(Loot[i]);
+                        Amounts.Remove(Amounts[i]);
                     }
                 }
             }
@@ -229,7 +257,7 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < Loot.Count; i++)
         {
-            if (Loot[i].name == name)
+            if (Loot[i].Name == name)
             {
                 Amounts[i] -= amount;
 
@@ -243,6 +271,7 @@ public class Inventory : MonoBehaviour
                 {
                     Destroy(itemHolder.GetChild(i).gameObject);
                     Loot.Remove(Loot[i]);
+                    Amounts.Remove(Amounts[i]);
                 }
             }
         }

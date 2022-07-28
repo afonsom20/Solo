@@ -1000,12 +1000,12 @@ MonoBehaviour:
   foodText: {fileID: 1161564558}
   sicknessIndicator: {fileID: 92667473}
   woundIndicator: {fileID: 1145297598}
-  restEffectOnHealth: 10
+  restEffectOnHealth: 30
   restEffectOnEnergy: 50
   hygienizeEffectOnHygiene: 35
   hygienizeEffectOnHope: 15
-  hopeLossFromKeepingWatch: 5
-  energyLossFromKeepingWatch: 15
+  hopeLossFromKeepingWatch: 10
+  energyLossFromKeepingWatch: 20
   energyDecreasePerPhase: 10
   hygieneDecreasePerPhase: 3
   hopeDecreasePerPhase: 5
@@ -1020,7 +1020,7 @@ MonoBehaviour:
   LowEnergyThreshold: 30
   LowHygieneThreshold: 25
   LowHopeThreshold: 25
-  foodEatenPerDay: 1
+  foodEatenPerDay: 2
   lowEnergyHealthEffect: 15
   lowHygieneHealthEffect: 10
   lowHopeHealthEffect: 5
@@ -1831,7 +1831,7 @@ MonoBehaviour:
   handwrittenTextPrefab: {fileID: 1886413856669276188, guid: 35cc19f81fe4ae7469f220b1017536fc, type: 3}
   expeditionRecapTextHolder: {fileID: 2092153354}
   hopeIncreaseBase: 5
-  minimumWoundChance: 25
+  minimumWoundChance: 12
   minimumFightHealthDecrease: 15
   fightHealthDecreaseDeviation: 5
 --- !u!1 &192809322
@@ -4993,7 +4993,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 29.419}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 56, y: 54.88002}
+  m_AnchoredPosition: {x: 49, y: 54.88002}
   m_SizeDelta: {x: 100, y: 119.6336}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &557105279
