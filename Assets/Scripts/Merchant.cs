@@ -97,9 +97,15 @@ public class Merchant : MonoBehaviour
         choiceButtons.SetActive(false);
 
         if (!alreadyBoughtSomething)
+        {
+            AudioManager.Instance.Play("RejectMerchant");
             Speak(rejectedDialogue, true);    
+        }
         else
+        {
+            AudioManager.Instance.Play("CheckMerchantStuff");
             Speak(goodbyeDialogue, true);
+        }
 
         Reset();
     }
@@ -115,7 +121,7 @@ public class Merchant : MonoBehaviour
         else
             Speak(goodbyeDialogue, true);
 
-        InformationManager.Instance.SendInfo(0, "You have purcheased an item");
+        InformationManager.Instance.SendInfo(0, "You have purchased an item");
         AudioManager.Instance.Play("BuyFromMerchant");
         alreadyBoughtSomething = true;
     }
@@ -157,16 +163,19 @@ public class Merchant : MonoBehaviour
     public void CheckInventory()
     {
         inventoryHolder.SetActive(true);
+        AudioManager.Instance.Play("CheckMerchantStuff");
         Speak(checkedInventoryDialogue, false);
     }
 
     public void NotEnoughFood()
     {
+        AudioManager.Instance.Play("RejectMerchant");
         Speak(notEnoughFoodDialogue, false);
     }
 
     public void PlayerAlreadyHasUniqueItem()
     {
+        AudioManager.Instance.Play("RejectMerchant");
         Speak(playerAlreadyHasUniqueItemDialogue, false);
     }
 

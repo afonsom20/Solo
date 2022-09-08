@@ -75,7 +75,10 @@ public class Inventory : MonoBehaviour
         }
         else if (lootFound.ImprovesFighting)
         {
-            image.color = Color.cyan;
+            if (lootFound.Name == "Bulletproof Vest")
+                image.color = new Color32(148, 0, 226, 255);
+            else
+                image.color = Color.cyan;
         }
     }
 

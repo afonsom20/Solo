@@ -39,7 +39,7 @@ public class CanvasManager : MonoBehaviour
     {
         raidRecapBoard.SetActive(false);
 
-        AudioManager.Instance.Play("CheckBoard");
+        AudioManager.Instance.Play("Raid");
     }
 
     public void Retry()

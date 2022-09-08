@@ -32,6 +32,8 @@ public class PlayerStatusManager : MonoBehaviour
     [Space, Header("Action Effects")]
     [SerializeField] int restEffectOnHealth = 10;
     [SerializeField] int restEffectOnEnergy = 50;
+    [SerializeField] int restEffectOnHope = 5;
+    [SerializeField] int hygienizeEffectOnHealth = 5; 
     [SerializeField] int hygienizeEffectOnHygiene = 44;
     [SerializeField] int hygienizeEffectOnHope = 15;
     [SerializeField] int hopeLossFromKeepingWatch = 5;
@@ -370,11 +372,17 @@ public class PlayerStatusManager : MonoBehaviour
         // Heal when resting;
         Health += restEffectOnHealth;
 
+        // Gain Hope when resting
+        Hope += restEffectOnHope;
+
         if (Energy > maxEnergy) 
             Energy = maxEnergy;        
         
         if (Health > maxHealth) 
             Health = maxHealth;
+
+        if (Hope > maxHope)
+            Hope = maxHope;
 
         UpdateStatusMeters();
 
@@ -394,11 +402,18 @@ public class PlayerStatusManager : MonoBehaviour
         // In the morning
         else
         {
+            Health += hygienizeEffectOnHealth;
             Hygiene += hygienizeEffectOnHygiene;
             Hope += hygienizeEffectOnHope;
 
+            if (Health > maxHealth)
+                Health = maxHealth;
+
             if (Hygiene > maxHygiene)
                 Hygiene = maxHygiene;
+
+            if (Hope > maxHope)
+                Hope = maxHope;
 
             UpdateStatusMeters();
 

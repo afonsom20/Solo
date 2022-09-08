@@ -39,7 +39,7 @@ public class OutlineToggler : MonoBehaviour
                 if (MouseInsideManualBorders())
                 {
                     // If so, activate the outline
-                    ToggleOutline();
+                    EnableOutline();
                     audioSource.Play();
                     insideBorder = true;
                 }
@@ -51,7 +51,7 @@ public class OutlineToggler : MonoBehaviour
                 if (!MouseInsideManualBorders())
                 {
                     // If so, deactivate the outline
-                    ToggleOutline();
+                    DisableOutline();
                     insideBorder = false;
                 }
                 // If not, it's still inside the borders, so check if the player clicked the mouse to activate the function
@@ -74,6 +74,18 @@ public class OutlineToggler : MonoBehaviour
             image.color = new Color (color.r, color.g, color.b, 1);
         else
             image.color = new Color(color.r, color.g, color.b, 0);
+    }
+
+    void EnableOutline()
+    {
+        Color color = image.color;
+        image.color = new Color(color.r, color.g, color.b, 1);
+    }
+
+    void DisableOutline()
+    {
+        Color color = image.color;
+        image.color = new Color(color.r, color.g, color.b, 0);
     }
 
     bool MouseInsideManualBorders()

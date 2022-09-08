@@ -24,4 +24,4 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 6b8109d80cb4a6843aadc87f3fc8f0a7, type: 3}
   ImprovesFighting: 1
   IsGun: 1
-  TooltipDescription: Heavily reduces damage taken in fights
+  TooltipDescription: If loaded, heavilty reduces damage taken in fights

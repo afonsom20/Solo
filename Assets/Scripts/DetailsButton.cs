@@ -10,4 +10,9 @@ public class DetailsButton : MonoBehaviour
 
         ActivityBoard.Instance.ShowActivityDescription(index);
     }
+
+    public void PlayDrawSound()
+    {
+        AudioManager.Instance.PlayRandomPitch("Draw", 0.9f, 1.2f);
+    }
 }

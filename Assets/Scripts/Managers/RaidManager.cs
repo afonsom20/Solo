@@ -30,7 +30,7 @@ public class RaidManager : MonoBehaviour
     [SerializeField] GameObject raidRecapBoard;
     [SerializeField] TextMeshProUGUI raidRecapTextHolder;
     [SerializeField] TextMeshProUGUI raidRecapStolenItems;
-    [SerializeField] TextMeshProUGUI raidRecapItemsUsedInFight;
+    [SerializeField] GameObject[] raidRecapItemsUsedInFight;
     [SerializeField] string[] raidRecapText;
 
     [Space, Header("References"), SerializeField] Inventory inventory;
@@ -58,13 +58,17 @@ public class RaidManager : MonoBehaviour
             UpdateRecapBoard();
 
             // Only activate the UI (i.e. enabling the player to react to the raid) if they were home on watch, not asleep
-            if (StayedHome && !Sleeping)           
-                raidScreen.SetActive(true);          
+            if (StayedHome && !Sleeping)
+            {
+                AudioManager.Instance.Play("Raid");
+                raidScreen.SetActive(true);
+            }
             else if (Sleeping) // if they were home but were sleeping, fighting is mandatory          
                 Fight();
+            else if (!StayedHome)
+                DetermineStolenItems();
 
-            DetermineStolenItems();
-            raidRecapBoard.SetActive(true);
+            raidRecapBoard.SetActive(true);            
         }
     }
 
@@ -123,17 +127,21 @@ public class RaidManager : MonoBehaviour
         if (hasGun && ammoAmount > 0)
         {
             Debug.Log("has loaded gun");
-            raidRecapItemsUsedInFight.text += "- Pistol";
+            raidRecapItemsUsedInFight[1].SetActive(true);
+            raidRecapItemsUsedInFight[2].SetActive(true);
         }
         if (hasKnife)
-            raidRecapItemsUsedInFight.text += "\n- Knife";
+            raidRecapItemsUsedInFight[0].SetActive(true);
         if (hasBulletproofVest)
-            raidRecapItemsUsedInFight.text += "\n- Bulletproof Vest";
+            raidRecapItemsUsedInFight[3].SetActive(true);
 
         if (!Sleeping)
             raidRecapTextHolder.text = raidRecapText[2];
 
         fought = true;
+
+        DetermineStolenItems();
+
         raidUIAnimator.SetTrigger("FadeOut");
     }
 
@@ -152,6 +160,8 @@ public class RaidManager : MonoBehaviour
     public void Surrender()
     {
         AudioManager.Instance.Play("Surrender");
+
+        DetermineStolenItems();
 
         PlayerStatusManager.Instance.IncreaseHope(-hopeLossFromSurrendering);
 
@@ -176,7 +186,11 @@ public class RaidManager : MonoBehaviour
             }
         }
 
-        int numberOfItemsToSteal = raidDanger - Mathf.RoundToInt(playerDefenceLevel);       
+        int numberOfItemsToSteal = raidDanger;
+
+        if (StayedHome)
+            numberOfItemsToSteal -= Mathf.RoundToInt(playerDefenceLevel);
+
         int foodStolen = Random.Range(1, 1 + 3 * raidDanger);
 
         if (fought)
@@ -219,7 +233,11 @@ public class RaidManager : MonoBehaviour
     // In case the player has an action, the specific method for that action (Fight() and Surrender()) will change the recap text accordingly
     void UpdateRecapBoard()
     {
-        raidRecapItemsUsedInFight.text = "";
+        foreach (GameObject item in raidRecapItemsUsedInFight)
+        {
+            item.SetActive(false);
+        }
+
         raidRecapStolenItems.text = "";
 
         if (StayedHome && Sleeping)       
@@ -254,7 +272,11 @@ public class RaidManager : MonoBehaviour
 
     void CheckPlayerPreparation()
     {
+        // Here we reset the variables
         playerDefenceLevel = 0;
+        hasGun = false; // we reset the hasSomething type variables because these may have been lost in a previous raid
+        hasKnife = false;
+        hasBulletproofVest = false;
         blockDoorButton.interactable = false;
 
         // Get ammo amount

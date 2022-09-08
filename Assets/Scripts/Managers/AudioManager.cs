@@ -35,6 +35,25 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
+        // Reset pitch in case this sound has been played with the PlayRandomPitch() method before
+        s.source.pitch = 1;
+
+        if (s.source.isPlaying == false)
+            s.source.Play();
+    }
+
+    public void PlayRandomPitch(string name, float minPitch, float maxPitch)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found!");
+            return;
+        }
+
+        float pitch = UnityEngine.Random.Range(minPitch, maxPitch);
+        s.source.pitch = pitch;
+
         if (s.source.isPlaying == false)
             s.source.Play();
     }

@@ -19,7 +19,7 @@ MonoBehaviour:
   LimitInventoryAmount: 0
   MaxInventoryAmount: 1
   AmountFoundMin: 1
-  AmountFoundMax: 5
+  AmountFoundMax: 4
   MerchantPrice: 3
   Icon: {fileID: 21300000, guid: c8f9cb9345e366a47981c9c383a3fc27, type: 3}
   ImprovesFighting: 0

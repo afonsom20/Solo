@@ -18,7 +18,10 @@ MonoBehaviour:
   OnlyOneFoundPerExpedition: 1
   LimitInventoryAmount: 1
   MaxInventoryAmount: 1
-  ImprovesFighting: 1
   AmountFoundMin: 1
   AmountFoundMax: 5
+  MerchantPrice: 3
   Icon: {fileID: 21300000, guid: a6e69d7aa22bbfc4ea975afd3197941a, type: 3}
+  ImprovesFighting: 1
+  IsGun: 0
+  TooltipDescription: Heavily reduces damage taken in fights
